@@ -24,9 +24,18 @@ export const ScheduleCont = styled.main`
   background-repeat: no-repeat;
 `;
 
-export const ScheduleInfo = styled.div<{
-  theme: ThemeStyle;
-}>`
+export const ScheduleOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: rgba(0, 0, 0, 0.66);
+`;
+
+export const ScheduleInfo = styled.div`
+  z-index: 1;
   padding: 2.5rem;
   display: flex;
   flex-direction: column;
@@ -43,6 +52,7 @@ export const Avatar = styled.img`
 `;
 
 export const Logo = styled.img`
+  z-index: 1;
   width: 10rem;
   height: 2rem;
   position: absolute;
@@ -55,10 +65,20 @@ export const Logo = styled.img`
   }
 `;
 
-export const ScheduleCalendarCont = styled.div<{
-  theme: ThemeStyle;
-}>`
+export const ScheduleCalendarCont = styled.div`
+  z-index: 1;
   padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1.5rem;
+  > * {
+    color: ${(props) => props.theme.colors.bg};
+  }
+`;
+
+export const CalendarDay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,13 +87,8 @@ export const ScheduleCalendarCont = styled.div<{
   background-color: ${(props) => props.theme.colors.surface};
 `;
 
-export const CalendarDay = styled.div<{
-  theme: ThemeStyle;
-}>`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1.5rem;
-  background-color: ${(props) => props.theme.colors.surface};
+export const CalendarDayHeader = styled.h2`
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
 `;

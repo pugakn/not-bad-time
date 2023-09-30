@@ -9,33 +9,33 @@ import {
 } from "@/app/globalStyles";
 import {
   Avatar,
+  CalendarDay,
+  CalendarDayHeader,
   Logo,
   ScheduleCalendarCont,
   ScheduleCont,
   ScheduleInfo,
+  ScheduleOverlay,
 } from "./style";
 import { useState } from "react";
 
 export default function Schedule() {
   const [showCalendar, setShowCalendar] = useState(true);
 
-  const theme = {
-    colors: {
-      primary: "#0070f3",
-      secondary: "#ff0000",
-      bg: "#ffffff",
-      surface: "#ffffff",
-    },
-  };
-
   const CalendarCContC = () => {
     return (
-      <ScheduleCalendarCont theme={theme}>
+      <ScheduleCalendarCont>
         <TxtLarge1 className="center">
           Pick a time that works best for you
         </TxtLarge1>
         <Label className="center">Select the time on</Label>
         <Section className="noTop center">
+          <CalendarDay>
+            <CalendarDayHeader>
+              <TxtRegular>Mon</TxtRegular>
+              <TxtRegular>12</TxtRegular>
+            </CalendarDayHeader>
+          </CalendarDay>
           <Button hero>Continue</Button>
         </Section>
       </ScheduleCalendarCont>
@@ -44,7 +44,7 @@ export default function Schedule() {
 
   const InfoContC = () => {
     return (
-      <ScheduleInfo theme={theme}>
+      <ScheduleInfo>
         <Section className="noBottom">
           <Avatar src="/schedule/avatar.jpeg" />
         </Section>
@@ -64,6 +64,7 @@ export default function Schedule() {
 
   return (
     <ScheduleCont>
+      <ScheduleOverlay />
       <Logo src="/schedule/logo.svg" />
       {!showCalendar && <InfoContC />}
       {showCalendar && <CalendarCContC />}
