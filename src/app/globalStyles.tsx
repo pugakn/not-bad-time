@@ -46,30 +46,6 @@ export const INPUT_SIDE_PADDING = "calc(var(--body-size) *1)";
 
 export const GlobalStyles = createGlobalStyle`
   :root {
-    /***************
-    *  LIGHT MODE  *
-    ***************/
-    --default-color: ${DEFAULT_COLOR};
-    --neutral-color-A: ${NEUTRAL_COLOR_A};
-    --neutral-color-B: ${NEUTRAL_COLOR_B};
-    --neutral-color-C: ${NEUTRAL_COLOR_C};
-    --neutral-color-D: ${NEUTRAL_COLOR_D};
-    --border-color: var(--default-color);
-    --bg-color: ${BG_COLOR};
-    --bg-color-80p: ${transparentize(0.2, BG_COLOR)};
-    --neutral-color-B-20p: ${transparentize(0.8, NEUTRAL_COLOR_B)};
-    --neutral-color-D-50p: ${transparentize(0.5, NEUTRAL_COLOR_D)};
-    --neutral-color-D-0p: ${transparentize(1, NEUTRAL_COLOR_D)};
-    --overlay-color: ${transparentize(0.1, darken(0.05, NEUTRAL_COLOR_D))};
-    --primary-color-60p: ${transparentize(0.6, PRIMARY_COLOR)};
-    --primary-color-30p: ${transparentize(0.7, PRIMARY_COLOR)};
-    --primary-color-10p: ${transparentize(0.88, PRIMARY_COLOR)};
-    --primary-color: ${PRIMARY_COLOR};
-    --negative-color-10p-flat: ${mix(
-      0.12,
-      NEGATIVE_COLOR,
-      BG_COLOR
-    )}; /* no transparency */
 
     /**************************
     *  THEME-AGNOSTIC COLORS  *
@@ -92,6 +68,7 @@ export const GlobalStyles = createGlobalStyle`
     --rhythm-nounits: 1.548387;
     --rhythm-px: 24px;
     --border-radius: 8px;
+    --border-radius-small: 8px;
   }
 
   *::selection {
@@ -125,8 +102,6 @@ export const GlobalStyles = createGlobalStyle`
   }
 `;
 
-// Regular text inherits these styles from body;
-// use these for overrides or content in tables.
 export const TxtRegular = styled.div`
   font-size: var(--body-size);
   line-height: var(--rhythm);
@@ -158,6 +133,7 @@ export const TxtRegularP = styled(TxtRegular)`
 export const [TxtLarge1, txtLarge1Style] = makeStyle(
   "h2",
   css`
+    font-family: var(--space-mono), monospace;
     font-weight: bold;
     font-size: 1.5rem;
     letter-spacing: -0.5px;
@@ -180,6 +156,7 @@ export const [TxtLarge1, txtLarge1Style] = makeStyle(
 export const [TxtLarge2, txtLarge2Style] = makeStyle(
   "h1",
   css`
+    font-family: var(--space-mono), monospace;
     font-weight: bold;
     font-size: 2rem;
     line-height: 36px;
@@ -205,7 +182,7 @@ export const [TxtLarge3, txtLarge3Style] = makeStyle(
   "h1",
   css`
     font-weight: 900;
-    font-family: "kairosTitle", Impact, Helvetica Neue, sans-serif;
+    font-family: var(--space-mono), monospace;
     font-size: 90px;
     line-height: 84px;
     letter-spacing: 0.5px;
@@ -309,19 +286,6 @@ export const [NumberLarge2, numberLarge2Style] = makeStyle(
 export const NumberSmall = TxtSmall2;
 export const numberSmallStyle = txtSmall2Style;
 
-export const SpecialNumber = styled.span`
-  ${numberLarge1Style}
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--border-color);
-  border-radius: 50%;
-  width: 1.6rem;
-  height: 1.6rem;
-  padding: 0.2rem;
-`;
-
 export const pressableStyle = css`
   cursor: pointer;
   transition: transform 0.15s ease, opacity 0.15s ease;
@@ -361,6 +325,7 @@ export const heroButton = keyframes`
     background-position: 200% 0;
   }
 `;
+
 export const primaryButtonStyle = css`
   color: var(--bg-color);
   background-color: var(--default-color);
@@ -384,6 +349,7 @@ export const primaryButtonStyle = css`
     }
   }
 `;
+
 export const heroButtonStyle = css`
   border: none;
   background: linear-gradient(
@@ -678,6 +644,11 @@ export const Section = styled.div`
     align-items: center;
     text-align: center;
   }
+
+  &.row {
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 export const Tag = styled(TxtSmall2)`
@@ -729,7 +700,13 @@ export const Label = styled(TxtRegular)`
   display: block;
   ${txtRegularMedium}
   margin-top: 0;
+  font-family: var(--space-mono), monospace;
   padding-bottom: calc(var(--rhythm) * 0.45);
+
+  &.big {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
 
   &.tight {
     margin-top: -2px;
