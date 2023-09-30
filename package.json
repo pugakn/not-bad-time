@@ -6,17 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.8.4",
-    "@apollo/server": "^4.9.3",
+    "@escape.tech/graphql-armor": "^2.3.1",
     "@googleapis/calendar": "^9.3.1",
     "@highlight-run/next": "^4.4.2",
+    "@svgr/webpack": "^8.1.0",
+    "firebase": "^10.4.0",
     "graphql": "^16.8.1",
     "graphql-middleware": "^6.1.35",
+    "graphql-scalars": "^1.22.2",
     "graphql-shield": "^7.6.5",
+    "graphql-tag": "^2.12.6",
     "graphql-tools": "^9.0.0",
+    "graphql-yoga": "^4.0.5",
     "lodash": "^4.17.21",
     "next": "latest",
     "polished": "^4.2.2",
@@ -25,6 +31,15 @@
     "styled-components": "^6.0.8"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^5.0.0",
+    "@graphql-codegen/cli": "5.0.0",
+    "@graphql-codegen/gql-tag-operations-preset": "^2.1.0",
+    "@graphql-codegen/introspection": "4.0.0",
+    "@graphql-codegen/typescript": "4.0.1",
+    "@graphql-codegen/typescript-apollo-client-helpers": "^2.2.6",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@graphql-codegen/typescript-resolvers": "4.0.1",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
@@ -39,6 +54,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",
-    "typescript": "latest"
+    "typescript": "^5.2.2"
   }
 }

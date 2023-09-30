@@ -1,0 +1,22 @@
+scalar DateTime
+
+type Meeting {
+  id: ID!
+  startDate: DateTime!
+  endDate: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CreateMeetingInput {
+  startDate: DateTime
+  endDate: DateTime!
+}
+
+type Mutation {
+  createMeeting(input: CreateMeetingInput!): Meeting!
+}
+
+type Query {
+  meeting(id: ID!): Meeting!
+}

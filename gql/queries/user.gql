@@ -1,0 +1,5 @@
+query GetMeeering($id: ID!) {
+  meeting(id: $id) {
+    id
+  }
+}
