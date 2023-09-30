@@ -9,16 +9,35 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.4",
+    "@apollo/server": "^4.9.3",
+    "@highlight-run/next": "^4.4.2",
+    "graphql": "^16.8.1",
+    "graphql-middleware": "^6.1.35",
+    "graphql-shield": "^7.6.5",
+    "graphql-tools": "^9.0.0",
+    "lodash": "^4.17.21",
+    "next": "latest",
+    "polished": "^4.2.2",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "styled-components": "^6.0.8"
   },
   "devDependencies": {
-    "typescript": "latest",
-    "@types/react": "latest",
     "@types/node": "latest",
+    "@types/react": "latest",
     "@types/react-dom": "latest",
     "eslint": "latest",
-    "eslint-config-next": "latest"
+    "eslint-config-next": "latest",
+    "typescript": "latest",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest-formatting": "^3.1.0",
+    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-only-warn": "^1.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-unused-imports": "^3.0.0"
   }
 }
