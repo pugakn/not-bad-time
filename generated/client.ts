@@ -19,20 +19,22 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: any; output: any; }
+  UUID: { input: any; output: any; }
 };
 
 export type CreateMeetingInput = {
-  endDate: Scalars['DateTime']['input'];
-  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  startDate: Scalars['DateTime']['input'];
 };
 
 export type Meeting = {
   __typename?: 'Meeting';
   createdAt: Scalars['DateTime']['output'];
   endDate: Scalars['DateTime']['output'];
-  id: Scalars['ID']['output'];
+  id: Scalars['UUID']['output'];
+  shareLink: Scalars['String']['output'];
   startDate: Scalars['DateTime']['output'];
   updatedAt: Scalars['DateTime']['output'];
+  userId: Scalars['UUID']['output'];
 };
 
 export type Mutation = {
@@ -48,6 +50,7 @@ export type MutationCreateMeetingArgs = {
 export type Query = {
   __typename?: 'Query';
   meeting: Meeting;
+  meetingsForUser: Array<Meeting>;
 };
 
 
@@ -60,14 +63,19 @@ export type CreateMeetingMutationVariables = Exact<{
 }>;
 
 
-export type CreateMeetingMutation = { __typename?: 'Mutation', createMeeting: { __typename?: 'Meeting', id: string } };
+export type CreateMeetingMutation = { __typename?: 'Mutation', createMeeting: { __typename?: 'Meeting', id: any } };
 
 export type GetMeeeringQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GetMeeeringQuery = { __typename?: 'Query', meeting: { __typename?: 'Meeting', id: string } };
+export type GetMeeeringQuery = { __typename?: 'Query', meeting: { __typename?: 'Meeting', id: any } };
+
+export type GetMeetingsForUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMeetingsForUserQuery = { __typename?: 'Query', meetingsForUser: Array<{ __typename?: 'Meeting', id: any }> };
 
 
 export const CreateMeetingDocument = gql`
@@ -138,6 +146,40 @@ export function useGetMeeeringLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetMeeeringQueryHookResult = ReturnType<typeof useGetMeeeringQuery>;
 export type GetMeeeringLazyQueryHookResult = ReturnType<typeof useGetMeeeringLazyQuery>;
 export type GetMeeeringQueryResult = Apollo.QueryResult<GetMeeeringQuery, GetMeeeringQueryVariables>;
+export const GetMeetingsForUserDocument = gql`
+    query GetMeetingsForUser {
+  meetingsForUser {
+    id
+  }
+}
+    `;
+
+/**
+ * __useGetMeetingsForUserQuery__
+ *
+ * To run a query within a React component, call `useGetMeetingsForUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMeetingsForUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMeetingsForUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMeetingsForUserQuery(baseOptions?: Apollo.QueryHookOptions<GetMeetingsForUserQuery, GetMeetingsForUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMeetingsForUserQuery, GetMeetingsForUserQueryVariables>(GetMeetingsForUserDocument, options);
+      }
+export function useGetMeetingsForUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMeetingsForUserQuery, GetMeetingsForUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMeetingsForUserQuery, GetMeetingsForUserQueryVariables>(GetMeetingsForUserDocument, options);
+        }
+export type GetMeetingsForUserQueryHookResult = ReturnType<typeof useGetMeetingsForUserQuery>;
+export type GetMeetingsForUserLazyQueryHookResult = ReturnType<typeof useGetMeetingsForUserLazyQuery>;
+export type GetMeetingsForUserQueryResult = Apollo.QueryResult<GetMeetingsForUserQuery, GetMeetingsForUserQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -217,6 +259,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  UUID: ResolverTypeWrapper<Scalars['UUID']['output']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -229,6 +272,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
+  UUID: Scalars['UUID']['output'];
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -238,9 +282,11 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 export type MeetingResolvers<ContextType = any, ParentType extends ResolversParentTypes['Meeting'] = ResolversParentTypes['Meeting']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  shareLink?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -250,31 +296,40 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   meeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<QueryMeetingArgs, 'id'>>;
+  meetingsForUser?: Resolver<Array<ResolversTypes['Meeting']>, ParentType, ContextType>;
 };
+
+export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UUID'], any> {
+  name: 'UUID';
+}
 
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   Meeting?: MeetingResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  UUID?: GraphQLScalarType;
 };
 
 
-export type MeetingKeySpecifier = ('createdAt' | 'endDate' | 'id' | 'startDate' | 'updatedAt' | MeetingKeySpecifier)[];
+export type MeetingKeySpecifier = ('createdAt' | 'endDate' | 'id' | 'shareLink' | 'startDate' | 'updatedAt' | 'userId' | MeetingKeySpecifier)[];
 export type MeetingFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	endDate?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	shareLink?: FieldPolicy<any> | FieldReadFunction<any>,
 	startDate?: FieldPolicy<any> | FieldReadFunction<any>,
-	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
+	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	userId?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MutationKeySpecifier = ('createMeeting' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	createMeeting?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('meeting' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('meeting' | 'meetingsForUser' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
-	meeting?: FieldPolicy<any> | FieldReadFunction<any>
+	meeting?: FieldPolicy<any> | FieldReadFunction<any>,
+	meetingsForUser?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
 	Meeting?: Omit<TypePolicy, "fields" | "keyFields"> & {

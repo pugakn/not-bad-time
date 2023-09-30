@@ -1,5 +1,6 @@
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from "next";
 
 export type Context = {
-  res: NextApiResponse
-}
+  res: NextApiResponse;
+  req: NextApiRequest;
+};

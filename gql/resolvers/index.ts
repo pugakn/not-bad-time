@@ -1,4 +1,4 @@
 import { merge } from "lodash";
-import userResolvers from "./meetingResolvers";
+import meetingResolvers from "./meetingResolvers";
 
-export default merge(userResolvers);
+export default merge(meetingResolvers);

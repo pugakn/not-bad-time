@@ -1,7 +1,10 @@
 scalar DateTime
+scalar UUID
 
 type Meeting {
-  id: ID!
+  id: UUID!
+  userId: UUID!
+  shareLink: String!
   startDate: DateTime!
   endDate: DateTime!
   createdAt: DateTime!
@@ -9,8 +12,7 @@ type Meeting {
 }
 
 input CreateMeetingInput {
-  startDate: DateTime
-  endDate: DateTime!
+  startDate: DateTime!
 }
 
 type Mutation {
@@ -19,4 +21,5 @@ type Mutation {
 
 type Query {
   meeting(id: ID!): Meeting!
+  meetingsForUser: [Meeting!]!
 }

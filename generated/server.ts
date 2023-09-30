@@ -15,20 +15,22 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: any; output: any; }
+  UUID: { input: any; output: any; }
 };
 
 export type CreateMeetingInput = {
-  endDate: Scalars['DateTime']['input'];
-  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  startDate: Scalars['DateTime']['input'];
 };
 
 export type Meeting = {
   __typename?: 'Meeting';
   createdAt: Scalars['DateTime']['output'];
   endDate: Scalars['DateTime']['output'];
-  id: Scalars['ID']['output'];
+  id: Scalars['UUID']['output'];
+  shareLink: Scalars['String']['output'];
   startDate: Scalars['DateTime']['output'];
   updatedAt: Scalars['DateTime']['output'];
+  userId: Scalars['UUID']['output'];
 };
 
 export type Mutation = {
@@ -44,6 +46,7 @@ export type MutationCreateMeetingArgs = {
 export type Query = {
   __typename?: 'Query';
   meeting: Meeting;
+  meetingsForUser: Array<Meeting>;
 };
 
 
@@ -130,6 +133,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  UUID: ResolverTypeWrapper<Scalars['UUID']['output']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -142,6 +146,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
+  UUID: Scalars['UUID']['output'];
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -151,9 +156,11 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 export type MeetingResolvers<ContextType = any, ParentType extends ResolversParentTypes['Meeting'] = ResolversParentTypes['Meeting']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  shareLink?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -163,12 +170,18 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   meeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<QueryMeetingArgs, 'id'>>;
+  meetingsForUser?: Resolver<Array<ResolversTypes['Meeting']>, ParentType, ContextType>;
 };
+
+export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UUID'], any> {
+  name: 'UUID';
+}
 
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   Meeting?: MeetingResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  UUID?: GraphQLScalarType;
 };
 

@@ -32,7 +32,7 @@ export default function Schedule() {
         <Label className="center">Select the time on</Label>
         <CalendarDayList />
         <Section className="center">
-          <Button hero>Continue</Button>
+          <Button hero={true}>Continue</Button>
         </Section>
       </ScheduleCalendarCont>
     );
@@ -52,7 +52,7 @@ export default function Schedule() {
           </TxtRegular>
         </Section>
         <Section className="noTop center">
-          <Button hero>Choose a time</Button>
+          <Button hero={true}>Choose a time</Button>
         </Section>
       </ScheduleInfo>
     );

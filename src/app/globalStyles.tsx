@@ -327,14 +327,14 @@ export const heroButton = keyframes`
 `;
 
 export const primaryButtonStyle = css`
-  color: var(--bg-color);
-  background-color: var(--default-color);
+  color: ${(p) => p.theme.colors.bg};
+  background-color: ${(p) => p.theme.colors.primary};
   border: none;
   .textWithGlyph {
-    color: var(--bg-color);
+    color: ${(p) => p.theme.colors.bg};
   }
   .textWithGlyph:before {
-    background-color: var(--bg-color);
+    background-color: ${(p) => p.theme.colors.bg};
   }
   &:disabled,
   &.disabled {
@@ -360,12 +360,12 @@ export const heroButtonStyle = css`
   );
   background-size: 200% 100%;
   animation: ${heroButton} 25s linear infinite;
-  color: var(--bg-color);
+  color: ${(p) => p.theme.colors.bg};
   .textWithGlyph {
-    color: var(--bg-color);
+    color: ${(p) => p.theme.colors.bg};
   }
   .textWithGlyph:before {
-    background-color: var(--bg-color);
+    background-color: ${(p) => p.theme.colors.bg};
   }
 
   &:hover {
@@ -397,6 +397,7 @@ export const Button = styled.button<{
   ${pressableStyle}
   ${txtRegularBold}
   display: flex;
+  gap: 8px;
   align-items: center;
   justify-content: center;
   font-size: inherit;

@@ -3,3 +3,9 @@ query GetMeeering($id: ID!) {
     id
   }
 }
+
+query GetMeetingsForUser {
+  meetingsForUser {
+    id
+  }
+}

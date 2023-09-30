@@ -8,6 +8,7 @@ import authorizationResolvers from "@/gql/resolvers/authorizationResolvers";
 import Schema from "@/gql/schemas/Schema.gql";
 import resolvers from "@/gql/resolvers";
 import { Resolvers } from "@/generated/server";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const typeDefs = [Schema];
 
@@ -21,11 +22,19 @@ const schema = createSchema({
   } as Resolvers,
 });
 
-const { handleRequest } = createYoga({
+const { handleRequest } = createYoga<{
+  req: NextApiRequest;
+  res: NextApiResponse;
+}>({
   schema: applyMiddleware(schema, authorizationResolvers.generate(schema)),
   plugins: [...enhancements.plugins],
-  async context(req: Request) {
-    return {} as any;
+  graphqlEndpoint: "/api/graphql",
+  fetchAPI: { Response },
+  async context(req: NextApiRequest, res: NextApiResponse) {
+    return {
+      req,
+      res,
+    } as Context;
   },
 });
 
