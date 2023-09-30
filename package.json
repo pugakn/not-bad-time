@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.4",
     "@apollo/server": "^4.9.3",
+    "@googleapis/calendar": "^9.3.1",
     "@highlight-run/next": "^4.4.2",
     "graphql": "^16.8.1",
     "graphql-middleware": "^6.1.35",
@@ -29,7 +30,6 @@
     "@types/react-dom": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
-    "typescript": "latest",
     "eslint-config-prettier": "^8.10.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.27.5",
@@ -38,6 +38,7 @@
     "eslint-plugin-only-warn": "^1.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "eslint-plugin-unused-imports": "^3.0.0"
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "typescript": "latest"
   }
 }

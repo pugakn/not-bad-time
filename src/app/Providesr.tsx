@@ -6,10 +6,10 @@ import { ThemeProvider } from "styled-components";
 
 const theme = {
   colors: {
-    primary: "#0070f3",
-    secondary: "#ff0000",
-    bg: "#ffffff",
-    surface: "#ffffff",
+    primary: "#6400e0",
+    secondary: "#ff00c7",
+    bg: "#FFFFFF",
+    surface: "#F9F9FE",
   },
 };
 

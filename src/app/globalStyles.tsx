@@ -67,7 +67,7 @@ export const GlobalStyles = createGlobalStyle`
     --rhythm: 24px;
     --rhythm-nounits: 1.548387;
     --rhythm-px: 24px;
-    --border-radius: 8px;
+    --border-radius: 25px;
     --border-radius-small: 8px;
   }
 
@@ -354,9 +354,9 @@ export const heroButtonStyle = css`
   border: none;
   background: linear-gradient(
     to right,
-    ${SECONDARY_COLOR} 30%,
-    ${PRIMARY_COLOR},
-    ${SECONDARY_COLOR}
+    ${(p) => p.theme.colors.primary} 30%,
+    ${(p) => p.theme.colors.secondary},
+    ${(p) => p.theme.colors.primary}
   );
   background-size: 200% 100%;
   animation: ${heroButton} 25s linear infinite;
@@ -400,7 +400,7 @@ export const Button = styled.button<{
   align-items: center;
   justify-content: center;
   font-size: inherit;
-  font-family: inherit;
+  font-family: var(--space-mono), monospace;
   border-radius: var(--border-radius);
   height: calc(var(--rhythm) * 2);
   padding: 0 calc(var(--body-size) * 1.5);
@@ -408,6 +408,7 @@ export const Button = styled.button<{
   color: var(--buttonText, var(--default-color));
   background: transparent;
   border: 2px solid var(--buttonText, var(--default-color));
+  text-transform: uppercase;
 
   &.inputAttached {
     ${inputAttachedStyle}

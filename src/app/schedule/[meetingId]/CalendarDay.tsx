@@ -7,7 +7,6 @@ import {
   CalendarDayHeader,
   CalendarTimeButton,
 } from "./style";
-import { useState } from "react";
 
 export default function CalendarDay({
   date,
