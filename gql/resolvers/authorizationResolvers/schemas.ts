@@ -1,5 +1,7 @@
 import Joi from "joi";
 
-export const MeetingsByUserIdArgs = Joi.object({
-  userId: Joi.string().required(),
+export const MeetingsForUserArgs = Joi.object({});
+export const CreateMeetingArgs = Joi.object({});
+export const DeleteMeetingArgs = Joi.object({
+  id: Joi.string().required(),
 });

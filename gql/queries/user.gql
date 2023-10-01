@@ -1,9 +1,3 @@
-query GetMeeering($id: ID!) {
-  meeting(id: $id) {
-    id
-  }
-}
-
 query GetMeetingsForUser {
   meetingsForUser {
     id

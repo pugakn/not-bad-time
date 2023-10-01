@@ -5,17 +5,24 @@ import { AuthContext, FirebaseAuth } from "../Firebase";
 import { FaGoogle } from "react-icons/fa";
 import { useContext, useEffect } from "react";
 import { redirect } from "next/navigation";
-import { useGetMeetingsForUserQuery } from "@/generated/client";
+import {
+  useCreateMeetingMutation,
+  useGetMeetingsForUserQuery,
+} from "@/generated/client";
 
 export default function Schedule() {
   const res = useGetMeetingsForUserQuery({});
-  console.log(res);
+  const [createMeeting, createMeetingRes] = useCreateMeetingMutation();
+  console.log({ createMeetingRes });
 
   const signout = () => {
     FirebaseAuth.signOut();
   };
 
-  const createMeeting = () => {};
+  const onCreateMeeting = async () => {
+    const res = await createMeeting();
+    console.log({ res });
+  };
 
   const authContext = useContext(AuthContext);
   useEffect(() => {
@@ -28,7 +35,7 @@ export default function Schedule() {
       <Button primary onClick={signout}>
         Log out
       </Button>
-      <Button primary onClick={createMeeting}>
+      <Button primary onClick={onCreateMeeting}>
         Create Meeting
       </Button>
 

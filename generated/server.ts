@@ -18,29 +18,33 @@ export type Scalars = {
   UUID: { input: any; output: any; }
 };
 
-export type CreateMeetingInput = {
-  startDate: Scalars['DateTime']['input'];
-};
-
 export type Meeting = {
   __typename?: 'Meeting';
   createdAt: Scalars['DateTime']['output'];
-  endDate: Scalars['DateTime']['output'];
+  endDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['UUID']['output'];
-  shareLink: Scalars['String']['output'];
-  startDate: Scalars['DateTime']['output'];
+  invitedEmail?: Maybe<Scalars['String']['output']>;
+  startDate?: Maybe<Scalars['DateTime']['output']>;
+  state: MeetingState;
   updatedAt: Scalars['DateTime']['output'];
   userId: Scalars['UUID']['output'];
 };
 
+export enum MeetingState {
+  Cancelled = 'CANCELLED',
+  Pending = 'PENDING',
+  Scheduled = 'SCHEDULED'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   createMeeting: Meeting;
+  deleteMeeting: Scalars['Boolean']['output'];
 };
 
 
-export type MutationCreateMeetingArgs = {
-  input: CreateMeetingInput;
+export type MutationDeleteMeetingArgs = {
+  id: Scalars['UUID']['input'];
 };
 
 export type Query = {
@@ -126,10 +130,10 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  CreateMeetingInput: CreateMeetingInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Meeting: ResolverTypeWrapper<Meeting>;
+  MeetingState: MeetingState;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -139,7 +143,6 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
-  CreateMeetingInput: CreateMeetingInput;
   DateTime: Scalars['DateTime']['output'];
   ID: Scalars['ID']['output'];
   Meeting: Meeting;
@@ -155,17 +158,19 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type MeetingResolvers<ContextType = any, ParentType extends ResolversParentTypes['Meeting'] = ResolversParentTypes['Meeting']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  endDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  endDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
-  shareLink?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  startDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  invitedEmail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  startDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  state?: Resolver<ResolversTypes['MeetingState'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createMeeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<MutationCreateMeetingArgs, 'input'>>;
+  createMeeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType>;
+  deleteMeeting?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteMeetingArgs, 'id'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

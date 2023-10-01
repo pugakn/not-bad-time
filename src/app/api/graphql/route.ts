@@ -10,6 +10,17 @@ import resolvers from "@/gql/resolvers";
 import { Resolvers } from "@/generated/server";
 import { NextApiRequest, NextApiResponse } from "next";
 
+import admin from "firebase-admin";
+
+//@ts-ignore
+if (!global.FirebaseAdmin) {
+  let serviceAccount = require("/firebase-admin-keys.json");
+  //@ts-ignore
+  global.FirebaseAdmin = admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
+
 const typeDefs = [Schema];
 
 const armor = new EnvelopArmor();
@@ -30,10 +41,21 @@ const { handleRequest } = createYoga<{
   plugins: [...enhancements.plugins],
   graphqlEndpoint: "/api/graphql",
   fetchAPI: { Response },
-  async context(req: NextApiRequest, res: NextApiResponse) {
+  async context(req: any, res: NextApiResponse) {
+    const authTokenHeader = req.request.headers.get("authorization");
+    let userId = null;
+    if (authTokenHeader) {
+      admin.auth().verifyIdToken;
+      const r = await admin
+        .auth()
+        .verifyIdToken(authTokenHeader.replace("Bearer ", ""));
+      userId = r.uid;
+    }
+
     return {
-      req,
+      req: req.request,
       res,
+      userId,
     } as Context;
   },
 });

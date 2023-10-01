@@ -1,5 +1,9 @@
-mutation CreateMeeting($input: CreateMeetingInput!) {
-  createMeeting(input: $input) {
+mutation CreateMeeting {
+  createMeeting {
     id
   }
+}
+
+mutation DeleteMeeting($id: UUID!) {
+  deleteMeeting(id: $id)
 }

@@ -1,22 +1,26 @@
 scalar DateTime
 scalar UUID
 
+enum MeetingState {
+  PENDING
+  SCHEDULED
+  CANCELLED
+}
+
 type Meeting {
   id: UUID!
+  state: MeetingState!
+  invitedEmail: String
   userId: UUID!
-  shareLink: String!
-  startDate: DateTime!
-  endDate: DateTime!
+  startDate: DateTime
+  endDate: DateTime
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
-input CreateMeetingInput {
-  startDate: DateTime!
-}
-
 type Mutation {
-  createMeeting(input: CreateMeetingInput!): Meeting!
+  createMeeting: Meeting!
+  deleteMeeting(id: UUID!): Boolean!
 }
 
 type Query {

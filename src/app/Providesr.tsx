@@ -3,17 +3,36 @@
 import { ReactNode } from "react";
 import { GlobalStyles } from "@/app/globalStyles";
 import { ThemeProvider } from "styled-components";
-import { AuthProvider } from "./Firebase";
+import { AuthProvider, FirebaseAuth } from "./Firebase";
 import {
   ApolloClient as _ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  gql,
+  ApolloLink,
+  HttpLink,
 } from "@apollo/client";
 
+import { setContext } from "apollo-link-context";
+const authLink = setContext((_, { headers }) => {
+  return FirebaseAuth?.currentUser?.getIdToken().then((token) => {
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    };
+  });
+});
+
+const httpLink = new HttpLink({
+  uri: "http://localhost:3000/api/graphql",
+});
+
+const link = ApolloLink.from([authLink as unknown as ApolloLink, httpLink]);
 export const ApolloClient = new _ApolloClient({
   uri: "http://localhost:3000/api/graphql",
   cache: new InMemoryCache(),
+  link,
 });
 
 const theme = {
