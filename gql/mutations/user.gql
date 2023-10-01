@@ -8,3 +8,18 @@ mutation CreateMeeting {
 mutation DeleteMeeting($meetingId: UUID!) {
   deleteMeeting(meetingId: $meetingId)
 }
+
+mutation ScheduleMeeting(
+  $meetingId: UUID!
+  $time: DateTime!
+  $invitedEmail: String!
+) {
+  scheduleMeeting(
+    meetingId: $meetingId
+    time: $time
+    invitedEmail: $invitedEmail
+  ) {
+    id
+    __typename
+  }
+}

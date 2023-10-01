@@ -1,6 +1,8 @@
 "use client";
 
 import { Label } from "@/app/globalStyles";
+import { CalendarTime } from "@/generated/client";
+import { useMemo } from "react";
 import {
   CalendarBody,
   CalendarDayCont,
@@ -12,23 +14,20 @@ export default function CalendarDay({
   date,
   onSelect,
   selected,
+  times,
 }: {
   date: Date;
   selected: string | null;
+  times: CalendarTime[];
   onSelect: (id: string) => void;
 }) {
   const onClick = (id: string) => {
     onSelect(id);
   };
-
-  const times = [
-    { id: "1", start: "9:00 AM", end: "9:30 AM" },
-    { id: "2", start: "9:30 AM", end: "10:00 AM" },
-    { id: "3", start: "10:00 AM", end: "10:30 AM" },
-    { id: "4", start: "10:30 AM", end: "11:00 AM" },
-  ];
-
-  const day = date.toLocaleDateString("en-US", { weekday: "long" });
+  const day = useMemo(
+    () => date.toLocaleDateString("en-US", { weekday: "long" }),
+    [date]
+  );
 
   return (
     <CalendarDayCont>
@@ -37,15 +36,29 @@ export default function CalendarDay({
         <Label className="noBottom thin">{date.toDateString()}</Label>
       </CalendarDayHeader>
       <CalendarBody>
-        {times.map((time) => (
-          <CalendarTimeButton
-            key={time.id}
-            selected={selected === time.id}
-            onClick={() => onClick(time.id)}
-          >
-            {time.start} - {time.end}
-          </CalendarTimeButton>
-        ))}
+        {times.map((time) => {
+          const startTimeStr = new Date(time.time).toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          });
+          const endTime = new Date(time.time);
+          endTime.setMinutes(endTime.getMinutes() + 30);
+          const endTimeStr = endTime.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          });
+          return (
+            <CalendarTimeButton
+              key={time.time}
+              selected={selected === time.time}
+              onClick={() => onClick(time.time)}
+            >
+              {startTimeStr} - {endTimeStr}
+            </CalendarTimeButton>
+          );
+        })}
       </CalendarBody>
     </CalendarDayCont>
   );

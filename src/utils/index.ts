@@ -25,7 +25,7 @@ export function formatDateToCustomString(date: Date, onlyTime = false) {
   const formattedDayOfMonth = dayOfMonth < 10 ? `0${dayOfMonth}` : dayOfMonth;
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
-  const formattedDateString = `${dayOfWeek} ${month} ${formattedDayOfMonth} ${hours}:${formattedMinutes}`;
+  const formattedDateString = `${dayOfWeek} ${formattedDayOfMonth} ${month} ${hours}:${formattedMinutes}`;
 
   return onlyTime ? formattedDateString.split(" ")[3] : formattedDateString;
 }

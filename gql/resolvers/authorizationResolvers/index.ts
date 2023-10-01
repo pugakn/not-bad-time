@@ -1,10 +1,17 @@
 import { chain, shield } from "graphql-shield";
-import { isAuthed, isDenied, isMeetingOwner, validateQuery } from "./rules";
+import {
+  MeetingExists,
+  isAuthed,
+  isDenied,
+  isMeetingOwner,
+  validateQuery,
+} from "./rules";
 import {
   CreateMeetingArgs,
   DeleteMeetingArgs,
   MeetingsByIdArgs,
   MeetingsForUserArgs,
+  ScheduleMeetingArgs,
 } from "./schemas";
 
 export default shield(
@@ -23,6 +30,7 @@ export default shield(
         validateQuery(DeleteMeetingArgs)
       ),
       createMeeting: chain(isAuthed, validateQuery(CreateMeetingArgs)),
+      scheduleMeeting: chain(MeetingExists, validateQuery(ScheduleMeetingArgs)),
       "*": isDenied,
     },
   },

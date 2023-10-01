@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, User, getAuth } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import firebaseconfig from "../../firebaseconfig";
-import { redirect } from "next/navigation";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 

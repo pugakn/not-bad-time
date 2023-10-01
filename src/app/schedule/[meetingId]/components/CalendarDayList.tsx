@@ -1,24 +1,26 @@
 "use client";
-import { useState } from "react";
+import { CalendarDay as CalendarDayT } from "@/generated/client";
 import { CalendarSection } from "../style";
 import CalendarDay from "./CalendarDay";
 
-export default function Schedule() {
-  const [selected, setSelected] = useState<string | null>(null);
-
-  const days = [
-    { id: "1", date: "12/12/2021" },
-    { id: "2", date: "12/12/2021" },
-  ];
-
+export default function Schedule({
+  days,
+  selected,
+  setSelected,
+}: {
+  days: CalendarDayT[];
+  selected: string | null;
+  setSelected: (id: string | null) => void;
+}) {
   return (
     <CalendarSection>
       {days.map((day) => (
         <CalendarDay
-          key={day.id}
+          key={day.date}
           onSelect={setSelected}
           selected={selected}
           date={new Date(day.date)}
+          times={day.times}
         />
       ))}
     </CalendarSection>

@@ -25,12 +25,14 @@ export type Scalars = {
 export type CalendarDay = {
   __typename?: 'CalendarDay';
   date: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
   times: Array<CalendarTime>;
 };
 
 export type CalendarTime = {
   __typename?: 'CalendarTime';
   available: Scalars['Boolean']['output'];
+  id: Scalars['String']['output'];
   time: Scalars['DateTime']['output'];
 };
 
@@ -56,11 +58,19 @@ export type Mutation = {
   __typename?: 'Mutation';
   createMeeting: Meeting;
   deleteMeeting: Scalars['Boolean']['output'];
+  scheduleMeeting: Meeting;
 };
 
 
 export type MutationDeleteMeetingArgs = {
   meetingId: Scalars['UUID']['input'];
+};
+
+
+export type MutationScheduleMeetingArgs = {
+  invitedEmail: Scalars['String']['input'];
+  meetingId: Scalars['UUID']['input'];
+  time: Scalars['DateTime']['input'];
 };
 
 export type Query = {
@@ -92,6 +102,15 @@ export type DeleteMeetingMutationVariables = Exact<{
 
 export type DeleteMeetingMutation = { __typename?: 'Mutation', deleteMeeting: boolean };
 
+export type ScheduleMeetingMutationVariables = Exact<{
+  meetingId: Scalars['UUID']['input'];
+  time: Scalars['DateTime']['input'];
+  invitedEmail: Scalars['String']['input'];
+}>;
+
+
+export type ScheduleMeetingMutation = { __typename?: 'Mutation', scheduleMeeting: { __typename: 'Meeting', id: any } };
+
 export type GetMeetingsForUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -109,7 +128,7 @@ export type GetCalendarForMeetingQueryVariables = Exact<{
 }>;
 
 
-export type GetCalendarForMeetingQuery = { __typename?: 'Query', calendarForMeeting: Array<{ __typename: 'CalendarDay', date: any, times: Array<{ __typename?: 'CalendarTime', time: any, available: boolean }> }> };
+export type GetCalendarForMeetingQuery = { __typename?: 'Query', calendarForMeeting: Array<{ __typename: 'CalendarDay', date: any, id: string, times: Array<{ __typename: 'CalendarTime', time: any, available: boolean, id: string }> }> };
 
 
 export const CreateMeetingDocument = gql`
@@ -176,6 +195,42 @@ export function useDeleteMeetingMutation(baseOptions?: Apollo.MutationHookOption
 export type DeleteMeetingMutationHookResult = ReturnType<typeof useDeleteMeetingMutation>;
 export type DeleteMeetingMutationResult = Apollo.MutationResult<DeleteMeetingMutation>;
 export type DeleteMeetingMutationOptions = Apollo.BaseMutationOptions<DeleteMeetingMutation, DeleteMeetingMutationVariables>;
+export const ScheduleMeetingDocument = gql`
+    mutation ScheduleMeeting($meetingId: UUID!, $time: DateTime!, $invitedEmail: String!) {
+  scheduleMeeting(meetingId: $meetingId, time: $time, invitedEmail: $invitedEmail) {
+    id
+    __typename
+  }
+}
+    `;
+export type ScheduleMeetingMutationFn = Apollo.MutationFunction<ScheduleMeetingMutation, ScheduleMeetingMutationVariables>;
+
+/**
+ * __useScheduleMeetingMutation__
+ *
+ * To run a mutation, you first call `useScheduleMeetingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useScheduleMeetingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [scheduleMeetingMutation, { data, loading, error }] = useScheduleMeetingMutation({
+ *   variables: {
+ *      meetingId: // value for 'meetingId'
+ *      time: // value for 'time'
+ *      invitedEmail: // value for 'invitedEmail'
+ *   },
+ * });
+ */
+export function useScheduleMeetingMutation(baseOptions?: Apollo.MutationHookOptions<ScheduleMeetingMutation, ScheduleMeetingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ScheduleMeetingMutation, ScheduleMeetingMutationVariables>(ScheduleMeetingDocument, options);
+      }
+export type ScheduleMeetingMutationHookResult = ReturnType<typeof useScheduleMeetingMutation>;
+export type ScheduleMeetingMutationResult = Apollo.MutationResult<ScheduleMeetingMutation>;
+export type ScheduleMeetingMutationOptions = Apollo.BaseMutationOptions<ScheduleMeetingMutation, ScheduleMeetingMutationVariables>;
 export const GetMeetingsForUserDocument = gql`
     query GetMeetingsForUser {
   meetingsForUser {
@@ -261,9 +316,12 @@ export const GetCalendarForMeetingDocument = gql`
     query GetCalendarForMeeting($meetingId: UUID!) {
   calendarForMeeting(meetingId: $meetingId) {
     date
+    id
     times {
       time
       available
+      id
+      __typename
     }
     __typename
   }
@@ -395,12 +453,14 @@ export type ResolversParentTypes = {
 
 export type CalendarDayResolvers<ContextType = any, ParentType extends ResolversParentTypes['CalendarDay'] = ResolversParentTypes['CalendarDay']> = {
   date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   times?: Resolver<Array<ResolversTypes['CalendarTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CalendarTimeResolvers<ContextType = any, ParentType extends ResolversParentTypes['CalendarTime'] = ResolversParentTypes['CalendarTime']> = {
   available?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   time?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -424,6 +484,7 @@ export type MeetingResolvers<ContextType = any, ParentType extends ResolversPare
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createMeeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType>;
   deleteMeeting?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteMeetingArgs, 'meetingId'>>;
+  scheduleMeeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<MutationScheduleMeetingArgs, 'invitedEmail' | 'meetingId' | 'time'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -447,14 +508,16 @@ export type Resolvers<ContextType = any> = {
 };
 
 
-export type CalendarDayKeySpecifier = ('date' | 'times' | CalendarDayKeySpecifier)[];
+export type CalendarDayKeySpecifier = ('date' | 'id' | 'times' | CalendarDayKeySpecifier)[];
 export type CalendarDayFieldPolicy = {
 	date?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	times?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CalendarTimeKeySpecifier = ('available' | 'time' | CalendarTimeKeySpecifier)[];
+export type CalendarTimeKeySpecifier = ('available' | 'id' | 'time' | CalendarTimeKeySpecifier)[];
 export type CalendarTimeFieldPolicy = {
 	available?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	time?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MeetingKeySpecifier = ('createdAt' | 'endDate' | 'id' | 'invitedEmail' | 'startDate' | 'state' | 'updatedAt' | 'userId' | MeetingKeySpecifier)[];
@@ -468,10 +531,11 @@ export type MeetingFieldPolicy = {
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	userId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('createMeeting' | 'deleteMeeting' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('createMeeting' | 'deleteMeeting' | 'scheduleMeeting' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	createMeeting?: FieldPolicy<any> | FieldReadFunction<any>,
-	deleteMeeting?: FieldPolicy<any> | FieldReadFunction<any>
+	deleteMeeting?: FieldPolicy<any> | FieldReadFunction<any>,
+	scheduleMeeting?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type QueryKeySpecifier = ('calendarForMeeting' | 'meeting' | 'meetingsForUser' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {

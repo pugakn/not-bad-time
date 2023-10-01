@@ -21,12 +21,14 @@ export type Scalars = {
 export type CalendarDay = {
   __typename?: 'CalendarDay';
   date: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
   times: Array<CalendarTime>;
 };
 
 export type CalendarTime = {
   __typename?: 'CalendarTime';
   available: Scalars['Boolean']['output'];
+  id: Scalars['String']['output'];
   time: Scalars['DateTime']['output'];
 };
 
@@ -52,11 +54,19 @@ export type Mutation = {
   __typename?: 'Mutation';
   createMeeting: Meeting;
   deleteMeeting: Scalars['Boolean']['output'];
+  scheduleMeeting: Meeting;
 };
 
 
 export type MutationDeleteMeetingArgs = {
   meetingId: Scalars['UUID']['input'];
+};
+
+
+export type MutationScheduleMeetingArgs = {
+  invitedEmail: Scalars['String']['input'];
+  meetingId: Scalars['UUID']['input'];
+  time: Scalars['DateTime']['input'];
 };
 
 export type Query = {
@@ -174,12 +184,14 @@ export type ResolversParentTypes = {
 
 export type CalendarDayResolvers<ContextType = any, ParentType extends ResolversParentTypes['CalendarDay'] = ResolversParentTypes['CalendarDay']> = {
   date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   times?: Resolver<Array<ResolversTypes['CalendarTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CalendarTimeResolvers<ContextType = any, ParentType extends ResolversParentTypes['CalendarTime'] = ResolversParentTypes['CalendarTime']> = {
   available?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   time?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -203,6 +215,7 @@ export type MeetingResolvers<ContextType = any, ParentType extends ResolversPare
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createMeeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType>;
   deleteMeeting?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteMeetingArgs, 'meetingId'>>;
+  scheduleMeeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<MutationScheduleMeetingArgs, 'invitedEmail' | 'meetingId' | 'time'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

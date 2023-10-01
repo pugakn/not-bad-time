@@ -15,34 +15,30 @@ export const LogOutButton = styled(Button)`
   }
 `;
 
-export const MeetingsTableCont = styled.div`
+export const MeetingsTableCont = styled.table`
   z-index: 1;
   padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   border-radius: 1.5rem;
   background-color: ${(props) => props.theme.colors.surface};
   max-width: 80%;
   max-height: 300px;
   overflow-y: scroll;
   gap: calc(var(--rhythm) * 0.8);
+
+  td {
+    padding: calc(var(--rhythm) * 0.4);
+    text-align: center;
+  }
 `;
 
-export const MeetingsTableRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: calc(var(--rhythm) * 1);
+export const MeetingsTableRow = styled.tr`
   width: 100%;
 `;
 
-export const MeetingsTableCol = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+export const MeetingsTableCol = styled.td`
   border-radius: var(--border-radius-small);
   background-color: ${(props) => props.theme.colors.surface};
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: var(--space-mono), monospace;
 `;

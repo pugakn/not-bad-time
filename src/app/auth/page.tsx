@@ -28,6 +28,7 @@ export default function Schedule() {
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
+        console.error({ errorCode, errorMessage, email, credential });
       });
   };
 

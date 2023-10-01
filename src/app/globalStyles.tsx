@@ -28,6 +28,7 @@ export const GlobalStyles = createGlobalStyle`
     --border-radius: 25px;
     --border-radius-small: 8px;
     --body-font: "Inter", sans-serif;
+    --default-color: #000000;
   }
 
   *::selection {
@@ -73,8 +74,8 @@ export const txtRegularBold = css`
 `;
 
 export const TxtRegularP = styled(TxtRegular)`
-  margin-top: var(--rhythm-px);
-  margin-bottom: var(--rhythm-px);
+  margin-top: var(--rhythm);
+  margin-bottom: var(--rhythm);
 `;
 
 export const [TxtLarge1, txtLarge1Style] = makeStyle(
@@ -246,23 +247,11 @@ export const primaryButtonStyle = css`
   color: ${(p) => p.theme.colors.bg};
   background-color: ${(p) => p.theme.colors.primary};
   border: none;
-  .textWithGlyph {
-    color: ${(p) => p.theme.colors.bg};
-  }
-  .textWithGlyph:before {
-    background-color: ${(p) => p.theme.colors.bg};
-  }
   &:disabled,
   &.disabled {
     opacity: 0.8;
     color: var(--bg-color-80p);
     background-color: var(--neutral-color-B);
-    .textWithGlyph {
-      color: var(--bg-color-80p);
-    }
-    .textWithGlyph:before {
-      background-color: var(--bg-color-80p);
-    }
   }
 `;
 
@@ -277,12 +266,6 @@ export const heroButtonStyle = css`
   background-size: 200% 100%;
   animation: ${heroButton} 25s linear infinite;
   color: ${(p) => p.theme.colors.bg};
-  .textWithGlyph {
-    color: ${(p) => p.theme.colors.bg};
-  }
-  .textWithGlyph:before {
-    background-color: ${(p) => p.theme.colors.bg};
-  }
 
   &:hover {
     animation-duration: 1.5s;
@@ -291,13 +274,7 @@ export const heroButtonStyle = css`
   &.disabled {
     opacity: 0.8;
     color: var(--bg-color-80p);
-    background: var(--neutral-color-B);
-    .textWithGlyph {
-      color: var(--bg-color-80p);
-    }
-    .textWithGlyph:before {
-      background-color: var(--bg-color-80p);
-    }
+    background: transparent;
   }
 `;
 
@@ -305,6 +282,7 @@ export const Button = styled.button<{
   $primary?: boolean;
   $small?: boolean;
   $hero?: boolean;
+  $negative?: boolean;
 }>`
   ${pressableStyle}
   ${txtRegularBold}
@@ -368,19 +346,6 @@ export const activeTransition = (
     transition-duration: ${props.map(() => "0.01s").join(",")};
   }`;
 
-export const ixStyle = css`
-  ${txtRegularMedium}
-  border-bottom: solid 1px;
-  transition: color 0.1s ease, border-bottom 0.1s ease;
-
-  &:hover {
-    transition: color 0.05s ease, border-bottom 0.05s ease;
-  }
-`;
-export const buttonAttachedStyle = css`
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-`;
 export let [Input, inputStyle] = makeStyle(
   "input",
   css`
@@ -389,90 +354,17 @@ export let [Input, inputStyle] = makeStyle(
     max-height: calc(var(--rhythm) * 2);
     color: var(--default-color);
     padding: calc(var(--rhythm) * 0.666667) 18px calc(var(--rhythm) * 0.666667);
-    box-shadow: inset 0 0 0 1px var(--neutral-color-B);
+    box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.primary};
     ${activeTransition(["box-shadow", "background-color", "color"])}
 
-    &.buttonAttached {
-      ${buttonAttachedStyle}
-    }
-
-    &:active,
-    &:focus,
-    &.invalid:active,
-    &.invalid:focus {
-      color: var(--primary-color);
-      box-shadow: inset 0 0 0 2px var(--primary-color);
-      background-color: rgba(255, 255, 255, 0);
-    }
-
-    &.invalid,
-    &:-internal-autofill-selected.invalid,
-    &[readonly].invalid,
-    &[readonly].invalid:active,
-    &[readonly].invalid:focus {
-      color: var(--negative-color);
-      box-shadow: inset 0 0 0 2px var(--negative-color);
-      background-color: var(--negative-color-10p);
-    }
-
-    &:-webkit-autofill,
-    &:-webkit-autofill:hover,
-    &:-webkit-autofill:focus {
-      font-family: inherit;
-      font-size: var(--body-size);
-      -webkit-text-fill-color: var(--default-color);
-      -webkit-box-shadow: inset 0 0 0 2px var(--primary-color),
-        inset 0 0 0px 1000px var(--bg-color); /* background color doesn't work in Safari */
-      transition: background-color 5000s ease-in-out 0s;
-    }
-
-    &[data-com-onepassword-filled],
-    &[data-com-onepassword-filled]:hover,
-    &[data-com-onepassword-filled]:focus {
-      font-family: inherit;
-      font-size: var(--body-size);
-      -webkit-text-fill-color: var(--default-color);
-      color: var(--default-color);
-      box-shadow: inset 0 0 0 2px var(--primary-color),
-        inset 0 0 0px 1000px var(--bg-color); /* background color doesn't work in Safari */
-    }
-
-    &.invalid[data-com-onepassword-filled],
-    &.invalid[data-com-onepassword-filled]:hover {
-      -webkit-text-fill-color: var(--negative-color);
-      color: var(--negative-color);
-      box-shadow: inset 0 0 0 2px var(--negative-color),
-        inset 0 0 0px 1000px var(--negative-color-10p-flat); /* background color doesn't work in Safari */
-    }
-
-    &[data-com-onepassword-filled]:not(.invalid):focus {
-      -webkit-text-fill-color: var(--primary-color);
-      color: var(--primary-color);
-    }
-
-    &.invalid:-webkit-autofill,
-    &.invalid:-webkit-autofill:hover {
-      -webkit-text-fill-color: var(--negative-color);
-      box-shadow: inset 0 0 0 2px var(--negative-color),
-        inset 0 0 0px 1000px var(--negative-color-10p); /* background color doesn't work in Safari */
-      background-color: var(--negative-color-10p);
-    }
-
-    &:not(.invalid):-webkit-autofill:focus {
-      -webkit-text-fill-color: var(--primary-color);
+    &::selection {
+      background-color: ${(p) => p.theme.colors.secondary};
     }
 
     &::placeholder {
-      color: var(--neutral-color-B);
+      color: ${(p) => p.theme.colors.primary};
       opacity: 1;
       ${activeTransition(["color"])}
-    }
-
-    &[readonly],
-    &[readonly]:active,
-    &[readonly]:focus {
-      color: var(--neutral-color-A);
-      box-shadow: inset 0 0 0 1px var(--neutral-color-B);
     }
 
     &[disabled],
@@ -514,8 +406,8 @@ export const [Textarea, textareaStyle] = makeStyle(
 export const Section = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: var(--rhythm-px);
-  margin-bottom: var(--rhythm-px);
+  margin-top: var(--rhythm);
+  margin-bottom: var(--rhythm);
 
   &.noBottom {
     margin-bottom: 0;
@@ -553,41 +445,23 @@ export const Tag = styled(TxtSmall2)`
   padding: 0 calc(var(--body-size) * 0.5);
   padding-top: 2px;
   align-items: center;
-  height: var(--rhythm);
+  height: var(--rhythm * 0.35);
   display: inline-block;
   letter-spacing: 0.25px;
 
   &.positive {
-    border-color: var(--positive-color);
-    color: var(--positive-color);
-    .textWithGlyph {
-      color: var(--positive-color);
-      &:before {
-        background-color: var(--positive-color);
-      }
-    }
+    border-color: ${(p) => p.theme.colors.positive};
+    color: ${(p) => p.theme.colors.positive};
   }
 
   &.negative {
-    border-color: var(--negative-color);
-    color: var(--negative-color);
-    .textWithGlyph {
-      color: var(--negative-color);
-      &:before {
-        background-color: var(--negative-color);
-      }
-    }
+    border-color: ${(p) => p.theme.colors.negative};
+    color: ${(p) => p.theme.colors.negative};
   }
 
-  &.primaryColor {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    .textWithGlyph {
-      color: var(--primary-color);
-      &:before {
-        background-color: var(--primary-color);
-      }
-    }
+  &.primary {
+    border-color: ${(p) => p.theme.colors.primary};
+    color: ${(p) => p.theme.colors.primary};
   }
 `;
 
@@ -629,47 +503,11 @@ export const Label = styled(TxtRegular)`
 `;
 
 export const InlineError = styled(TxtSmall1)`
-  background-color: var(--negative-color-10p);
-  border-radius: var(--border-radius);
-  padding: calc(var(--rhythm) * 0.5);
-  padding-bottom: calc(var(--rhythm) * 0.5 + 2px);
-  color: var(--negative-color);
-  margin-top: calc(var(--rhythm) * 0.5);
+  color: ${(p) => p.theme.colors.negative};
+  margin-top: calc(var(--rhythm) * 0.2);
 
-  ${A} {
-    color: var(--negative-color);
-    border-bottom-color: var(--negative-color-60p);
-  }
-
-  strong {
-    display: block;
-    ${txtRegularBold}
-  }
-
-  &.withP {
-    font-weight: normal;
-  }
-
-  &.withBottomMargin {
-    margin-bottom: calc(var(--rhythm) * 1);
-  }
-
-  &.minimal {
-    margin: 0;
-    padding-top: calc(var(--rhythm) * 0.2);
-    padding-bottom: calc(var(--rhythm) * 0.2 + 2px);
-  }
-
-  &.centered {
+  &.center {
     text-align: center;
-  }
-
-  & > p {
-    margin-bottom: calc(var(--rhythm) * 0.5);
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 `;
 

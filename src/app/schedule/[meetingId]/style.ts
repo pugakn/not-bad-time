@@ -56,6 +56,7 @@ export const CalendarDayCont = styled.div`
 `;
 
 export const CalendarDayHeader = styled.div`
+  border: 0;
   display: flex;
   flex-direction: column;
   padding: 0.8rem 0;
@@ -76,7 +77,6 @@ export const CalendarBody = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0.7rem 0.8rem;
-  width: 100%;
   height: 100%;
   gap: calc(var(--rhythm) * 0.5);
 `;

@@ -41,6 +41,8 @@ const theme = {
     secondary: "#ff00c7",
     bg: "#FFFFFF",
     surface: "#F9F9FE",
+    positive: "#00e0a0",
+    negative: "#e00000",
   },
 };
 

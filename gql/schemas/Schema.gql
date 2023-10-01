@@ -8,11 +8,13 @@ enum MeetingState {
 }
 
 type CalendarTime {
+  id: String!
   time: DateTime!
   available: Boolean!
 }
 
 type CalendarDay {
+  id: String!
   date: DateTime!
   times: [CalendarTime!]!
 }
@@ -31,6 +33,11 @@ type Meeting {
 type Mutation {
   createMeeting: Meeting!
   deleteMeeting(meetingId: UUID!): Boolean!
+  scheduleMeeting(
+    meetingId: UUID!
+    time: DateTime!
+    invitedEmail: String!
+  ): Meeting!
 }
 
 type Query {

@@ -1,5 +1,6 @@
 "use client";
 import {
+  MeetingState,
   useCreateMeetingMutation,
   useDeleteMeetingMutation,
   useGetMeetingsForUserQuery,
@@ -13,6 +14,7 @@ import {
   PageCont,
   PageContOverlay,
   Section,
+  Tag,
 } from "../globalStyles";
 import {
   LogOutButton,
@@ -30,7 +32,7 @@ import { useCopyToClipboard } from "usehooks-ts";
 export default function Schedule() {
   const meetingsData = useGetMeetingsForUserQuery();
 
-  console.log({ meetingsData: meetingsData.data?.meetingsForUser.length });
+  console.log({ meetingsData: meetingsData.data?.meetingsForUser });
   const [createMeeting, createMeetingRes] = useCreateMeetingMutation({
     refetchQueries: ["GetMeetingsForUser"],
   });
@@ -70,6 +72,12 @@ export default function Schedule() {
     };
     return (
       <MeetingsTableCont>
+        <tr>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Lastname</th>
+          <th>Lastname</th>
+        </tr>
         {meetingsData.data?.meetingsForUser.map((meeting) => {
           return (
             <MeetingsTableRow key={meeting.id}>
@@ -90,11 +98,22 @@ export default function Schedule() {
                   {formatDateToCustomString(new Date(meeting.endDate), true)}
                 </MeetingsTableCol>
               )}
-              <MeetingsTableCol>{meeting.state}</MeetingsTableCol>
-              <MeetingsTableCol>{meeting.invitedEmail}</MeetingsTableCol>
+              {!meeting.startDate && <MeetingsTableCol>N/A</MeetingsTableCol>}
+              <MeetingsTableCol>
+                {meeting.invitedEmail || "N/A"}
+              </MeetingsTableCol>
+              <MeetingsTableCol>
+                <Tag
+                  className={
+                    meeting.state === MeetingState.Scheduled ? "positive" : ""
+                  }
+                >
+                  {meeting.state}
+                </Tag>
+              </MeetingsTableCol>
               <MeetingsTableCol>
                 <Button
-                  $primary
+                  $negative
                   onClick={() => {
                     onDeleteClick(meeting.id);
                   }}

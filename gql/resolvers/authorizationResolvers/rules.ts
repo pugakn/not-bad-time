@@ -41,3 +41,15 @@ export const isMeetingOwner = rule({ cache: "contextual" })(
     return Promise.reject(new GraphQLError("Forbidden"));
   }
 );
+
+export const MeetingExists = rule({ cache: "contextual" })(
+  async (_, { meetingId }) => {
+    const meeting = await admin
+      .firestore()
+      .collection("meetings")
+      .doc(meetingId)
+      .get();
+    if (!meeting?.exists) return Promise.reject(new GraphQLError("Forbidden"));
+    return true;
+  }
+);
