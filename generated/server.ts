@@ -44,7 +44,7 @@ export type Mutation = {
 
 
 export type MutationDeleteMeetingArgs = {
-  id: Scalars['UUID']['input'];
+  meetingId: Scalars['UUID']['input'];
 };
 
 export type Query = {
@@ -55,7 +55,7 @@ export type Query = {
 
 
 export type QueryMeetingArgs = {
-  id: Scalars['ID']['input'];
+  meetingId: Scalars['UUID']['input'];
 };
 
 
@@ -131,7 +131,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
-  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Meeting: ResolverTypeWrapper<Meeting>;
   MeetingState: MeetingState;
   Mutation: ResolverTypeWrapper<{}>;
@@ -144,7 +143,6 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   DateTime: Scalars['DateTime']['output'];
-  ID: Scalars['ID']['output'];
   Meeting: Meeting;
   Mutation: {};
   Query: {};
@@ -170,11 +168,11 @@ export type MeetingResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createMeeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType>;
-  deleteMeeting?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteMeetingArgs, 'id'>>;
+  deleteMeeting?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteMeetingArgs, 'meetingId'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  meeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<QueryMeetingArgs, 'id'>>;
+  meeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<QueryMeetingArgs, 'meetingId'>>;
   meetingsForUser?: Resolver<Array<ResolversTypes['Meeting']>, ParentType, ContextType>;
 };
 

@@ -3,6 +3,7 @@ import { isAuthed, isDenied, isMeetingOwner, validateQuery } from "./rules";
 import {
   CreateMeetingArgs,
   DeleteMeetingArgs,
+  MeetingsByIdArgs,
   MeetingsForUserArgs,
 } from "./schemas";
 
@@ -10,6 +11,7 @@ export default shield(
   {
     Query: {
       meetingsForUser: chain(isAuthed, validateQuery(MeetingsForUserArgs)),
+      meeting: chain(isAuthed, validateQuery(MeetingsByIdArgs)),
       "*": isDenied,
     },
 

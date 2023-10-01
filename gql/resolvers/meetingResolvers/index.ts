@@ -5,6 +5,17 @@ import { v4 as uuidv4 } from "uuid";
 
 export default {
   Query: {
+    meeting: async (_: unknown, { meetingId }, context: Context) => {
+      console.log("meeting: ", context.userId);
+
+      const meeting = await admin
+        .firestore()
+        .collection("meetings")
+        .doc(meetingId)
+        .get();
+
+      return meeting.data() as Meeting;
+    },
     meetingsForUser: async (_: unknown, {}, context: Context) => {
       console.log("meetingsForUser: ", context.userId);
 
@@ -21,10 +32,10 @@ export default {
     },
   },
   Mutation: {
-    deleteMeeting: async (_: unknown, { id }, context: Context) => {
+    deleteMeeting: async (_: unknown, { meetingId }, context: Context) => {
       console.log("deleteMeeting: ", context.userId);
 
-      await admin.firestore().collection("meetings").doc(id).delete();
+      await admin.firestore().collection("meetings").doc(meetingId).delete();
       return true;
     },
     createMeeting: async (_: unknown, {}, context: Context) => {

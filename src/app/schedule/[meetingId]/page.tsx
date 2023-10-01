@@ -1,13 +1,18 @@
-import { calendar } from "@googleapis/calendar";
 import { Logo, ScheduleCont, ScheduleOverlay } from "./style";
 import SwitchView from "./SwitchView";
 
-export default function Schedule() {
+export default function Schedule({
+  params,
+}: {
+  params: { meetingId: string };
+}) {
+  const meetingId = params.meetingId;
+
   return (
     <ScheduleCont>
       <ScheduleOverlay />
       <Logo src="/schedule/logo.svg" />
-      <SwitchView />
+      <SwitchView meetingId={meetingId} />
     </ScheduleCont>
   );
 }

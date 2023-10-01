@@ -5,6 +5,6 @@ mutation CreateMeeting {
   }
 }
 
-mutation DeleteMeeting($id: UUID!) {
-  deleteMeeting(id: $id)
+mutation DeleteMeeting($meetingId: UUID!) {
+  deleteMeeting(meetingId: $meetingId)
 }

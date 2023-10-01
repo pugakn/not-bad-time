@@ -29,12 +29,12 @@ export const isAuthed = rule({ cache: "contextual" })(async (_, __, ctx) => {
 });
 
 export const isMeetingOwner = rule({ cache: "contextual" })(
-  async (_, { id }, ctx) => {
+  async (_, { meetingId }, ctx) => {
     const { userId } = ctx;
     const meeting = await admin
       .firestore()
       .collection("meetings")
-      .doc(id)
+      .doc(meetingId)
       .get();
     if (!meeting?.exists) return Promise.reject(new GraphQLError("Forbidden"));
     if (meeting?.data()?.userId === userId) return true;

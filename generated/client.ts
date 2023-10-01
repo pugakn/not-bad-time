@@ -48,7 +48,7 @@ export type Mutation = {
 
 
 export type MutationDeleteMeetingArgs = {
-  id: Scalars['UUID']['input'];
+  meetingId: Scalars['UUID']['input'];
 };
 
 export type Query = {
@@ -59,7 +59,7 @@ export type Query = {
 
 
 export type QueryMeetingArgs = {
-  id: Scalars['ID']['input'];
+  meetingId: Scalars['UUID']['input'];
 };
 
 export type CreateMeetingMutationVariables = Exact<{ [key: string]: never; }>;
@@ -68,7 +68,7 @@ export type CreateMeetingMutationVariables = Exact<{ [key: string]: never; }>;
 export type CreateMeetingMutation = { __typename?: 'Mutation', createMeeting: { __typename: 'Meeting', id: any } };
 
 export type DeleteMeetingMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
+  meetingId: Scalars['UUID']['input'];
 }>;
 
 
@@ -78,6 +78,13 @@ export type GetMeetingsForUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetMeetingsForUserQuery = { __typename?: 'Query', meetingsForUser: Array<{ __typename: 'Meeting', id: any, state: MeetingState, startDate?: any | null, endDate?: any | null, createdAt: any, invitedEmail?: string | null }> };
+
+export type GetMeetingByIdQueryVariables = Exact<{
+  meetingId: Scalars['UUID']['input'];
+}>;
+
+
+export type GetMeetingByIdQuery = { __typename?: 'Query', meeting: { __typename: 'Meeting', id: any, state: MeetingState, startDate?: any | null, endDate?: any | null, createdAt: any, invitedEmail?: string | null } };
 
 
 export const CreateMeetingDocument = gql`
@@ -114,8 +121,8 @@ export type CreateMeetingMutationHookResult = ReturnType<typeof useCreateMeeting
 export type CreateMeetingMutationResult = Apollo.MutationResult<CreateMeetingMutation>;
 export type CreateMeetingMutationOptions = Apollo.BaseMutationOptions<CreateMeetingMutation, CreateMeetingMutationVariables>;
 export const DeleteMeetingDocument = gql`
-    mutation DeleteMeeting($id: UUID!) {
-  deleteMeeting(id: $id)
+    mutation DeleteMeeting($meetingId: UUID!) {
+  deleteMeeting(meetingId: $meetingId)
 }
     `;
 export type DeleteMeetingMutationFn = Apollo.MutationFunction<DeleteMeetingMutation, DeleteMeetingMutationVariables>;
@@ -133,7 +140,7 @@ export type DeleteMeetingMutationFn = Apollo.MutationFunction<DeleteMeetingMutat
  * @example
  * const [deleteMeetingMutation, { data, loading, error }] = useDeleteMeetingMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      meetingId: // value for 'meetingId'
  *   },
  * });
  */
@@ -184,6 +191,47 @@ export function useGetMeetingsForUserLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type GetMeetingsForUserQueryHookResult = ReturnType<typeof useGetMeetingsForUserQuery>;
 export type GetMeetingsForUserLazyQueryHookResult = ReturnType<typeof useGetMeetingsForUserLazyQuery>;
 export type GetMeetingsForUserQueryResult = Apollo.QueryResult<GetMeetingsForUserQuery, GetMeetingsForUserQueryVariables>;
+export const GetMeetingByIdDocument = gql`
+    query GetMeetingById($meetingId: UUID!) {
+  meeting(meetingId: $meetingId) {
+    id
+    state
+    startDate
+    endDate
+    createdAt
+    invitedEmail
+    __typename
+  }
+}
+    `;
+
+/**
+ * __useGetMeetingByIdQuery__
+ *
+ * To run a query within a React component, call `useGetMeetingByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMeetingByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMeetingByIdQuery({
+ *   variables: {
+ *      meetingId: // value for 'meetingId'
+ *   },
+ * });
+ */
+export function useGetMeetingByIdQuery(baseOptions: Apollo.QueryHookOptions<GetMeetingByIdQuery, GetMeetingByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMeetingByIdQuery, GetMeetingByIdQueryVariables>(GetMeetingByIdDocument, options);
+      }
+export function useGetMeetingByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMeetingByIdQuery, GetMeetingByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMeetingByIdQuery, GetMeetingByIdQueryVariables>(GetMeetingByIdDocument, options);
+        }
+export type GetMeetingByIdQueryHookResult = ReturnType<typeof useGetMeetingByIdQuery>;
+export type GetMeetingByIdLazyQueryHookResult = ReturnType<typeof useGetMeetingByIdLazyQuery>;
+export type GetMeetingByIdQueryResult = Apollo.QueryResult<GetMeetingByIdQuery, GetMeetingByIdQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -257,7 +305,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
-  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Meeting: ResolverTypeWrapper<Meeting>;
   MeetingState: MeetingState;
   Mutation: ResolverTypeWrapper<{}>;
@@ -270,7 +317,6 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   DateTime: Scalars['DateTime']['output'];
-  ID: Scalars['ID']['output'];
   Meeting: Meeting;
   Mutation: {};
   Query: {};
@@ -296,11 +342,11 @@ export type MeetingResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createMeeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType>;
-  deleteMeeting?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteMeetingArgs, 'id'>>;
+  deleteMeeting?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteMeetingArgs, 'meetingId'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  meeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<QueryMeetingArgs, 'id'>>;
+  meeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<QueryMeetingArgs, 'meetingId'>>;
   meetingsForUser?: Resolver<Array<ResolversTypes['Meeting']>, ParentType, ContextType>;
 };
 

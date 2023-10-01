@@ -25,12 +25,12 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:3000/api/graphql",
+  uri: process.env.NEXT_PUBLIC_BASE_URL + "/api/graphql",
 });
 
 const link = ApolloLink.from([authLink as unknown as ApolloLink, httpLink]);
 export const ApolloClient = new _ApolloClient({
-  uri: "http://localhost:3000/api/graphql",
+  uri: process.env.NEXT_PUBLIC_BASE_URL + "/api/graphql",
   cache: new InMemoryCache(),
   link,
 });

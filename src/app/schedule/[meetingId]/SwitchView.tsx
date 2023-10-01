@@ -15,11 +15,30 @@ import {
   ScheduleInfo,
   ScheduleOverlay,
 } from "./style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CalendarDayList from "./CalendarDayList";
+import { redirect } from "next/navigation";
+import { useGetMeetingByIdQuery } from "@/generated/client";
 
-export default function Schedule() {
+export default function Schedule({ meetingId }: { meetingId: string }) {
   const [showCalendar, setShowCalendar] = useState(true);
+  if (!meetingId) {
+    redirect("/404");
+  }
+
+  const meetingData = useGetMeetingByIdQuery({
+    variables: { meetingId },
+  });
+
+  useEffect(() => {
+    if (
+      meetingData.called &&
+      !meetingData.loading &&
+      !meetingData.data?.meeting.id
+    ) {
+      redirect("/404");
+    }
+  }, [meetingData]);
 
   const CalendarCContC = () => {
     return (
