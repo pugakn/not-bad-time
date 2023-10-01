@@ -1,12 +1,12 @@
 "use client";
 
-import { Button, Label, TxtLarge1, TxtRegular } from "@/app/globalStyles";
+import { Label } from "@/app/globalStyles";
 import {
   CalendarBody,
   CalendarDayCont,
   CalendarDayHeader,
   CalendarTimeButton,
-} from "./style";
+} from "../style";
 
 export default function CalendarDay({
   date,

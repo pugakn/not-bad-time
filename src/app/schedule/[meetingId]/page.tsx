@@ -1,5 +1,5 @@
+import SwitchView from "./components/SwitchView";
 import { Logo, ScheduleCont, ScheduleOverlay } from "./style";
-import SwitchView from "./SwitchView";
 
 export default function Schedule({
   params,

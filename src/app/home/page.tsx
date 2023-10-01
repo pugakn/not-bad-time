@@ -62,8 +62,8 @@ export default function Schedule() {
         type: "success",
       });
     };
-    const onDeleteClick = (id: string) => {
-      deleteMeeting({ variables: { id } });
+    const onDeleteClick = (meetingId: string) => {
+      deleteMeeting({ variables: { meetingId } });
     };
     return (
       <MeetingsTableCont>
@@ -72,7 +72,7 @@ export default function Schedule() {
             <MeetingsTableRow key={meeting.id}>
               <MeetingsTableCol>
                 <Button
-                  primary
+                  $primary
                   onClick={() => {
                     onCopyClick(meeting.id);
                   }}
@@ -91,7 +91,7 @@ export default function Schedule() {
               <MeetingsTableCol>{meeting.invitedEmail}</MeetingsTableCol>
               <MeetingsTableCol>
                 <Button
-                  primary
+                  $primary
                   onClick={() => {
                     onDeleteClick(meeting.id);
                   }}
@@ -110,14 +110,14 @@ export default function Schedule() {
     <ScheduleCont>
       <ToastContainer />
       <ScheduleOverlay />
-      <LogOutButton primary onClick={signout}>
+      <LogOutButton $primary onClick={signout}>
         Log out
       </LogOutButton>
       {(meetingsData.data?.meetingsForUser?.length || 0) > 0 && (
         <MeetingTableC />
       )}
       <Section>
-        <Button primary onClick={onCreateMeeting}>
+        <Button $primary onClick={onCreateMeeting}>
           Create Meeting
         </Button>
       </Section>

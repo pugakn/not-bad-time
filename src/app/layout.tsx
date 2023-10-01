@@ -1,8 +1,6 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Providers from "./Providesr";
 import { Space_Mono } from "next/font/google";
+import Providers from "./Providesr";
 
 const spaceMono = Space_Mono({
   weight: ["400", "700"],

@@ -1,8 +1,8 @@
-import { rule } from "graphql-shield";
-import { cloneDeep } from "lodash";
-import { GraphQLError } from "graphql";
 import permitAndValidate from "@/gql/utils/permitAndValidate";
 import admin from "firebase-admin";
+import { GraphQLError } from "graphql";
+import { rule } from "graphql-shield";
+import { cloneDeep } from "lodash";
 
 export const validateQuery = (argsJsonSchema: any) =>
   rule({ cache: "contextual" })(async (_, args) => {

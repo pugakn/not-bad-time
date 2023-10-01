@@ -1,6 +1,5 @@
 "use client";
 
-import { darken, mix, transparentize } from "polished";
 import styled, {
   CSSProp,
   RuleSet,
@@ -17,49 +16,9 @@ export const makeStyle = (tagName: string, cssStyle: CSSProp | RuleSet) => {
 /***************
  *   COLOURS   *
  ***************/
-export const DEFAULT_COLOR = "#260F09";
-export const NEUTRAL_COLOR_A = "#5C4F4C";
-export const NEUTRAL_COLOR_B = "#9B8A87";
-export const NEUTRAL_COLOR_C = "#F0EAE9";
-export const NEUTRAL_COLOR_D = "#F7F5F2";
-export const BG_COLOR = "#FFFFFF";
-// dark mode
-export const DM_DEFAULT_COLOR = "#DCCAC7";
-export const DM_NEUTRAL_COLOR_A = "#AA97A6";
-export const DM_NEUTRAL_COLOR_B = "#51384C";
-export const DM_NEUTRAL_COLOR_C = "#3e1d36";
-export const DM_NEUTRAL_COLOR_D = "#34152C";
-export const DM_BG_COLOR = "#240A05";
-
-export const PRIMARY_COLOR = "#6E45E3";
-export const SECONDARY_COLOR = "#CE3BA8";
-export const TERTIARY_COLOR = "#ED5C40";
-export const BRAND_COLOR_3 = "#61A7F2";
-export const BRAND_COLOR_4 = "#30BC97";
-export const NEGATIVE_COLOR = TERTIARY_COLOR;
-export const POSITIVE_COLOR = "#13A35C";
-export const SIDE_PADDING_DESKTOP = "48px";
-export const MAX_SIDEBAR_WIDTH = "240px";
-export const MAX_NAVBAR_HEIGHT = "81px";
-export const PADDING_MOBILE = "16px";
-export const INPUT_SIDE_PADDING = "calc(var(--body-size) *1)";
 
 export const GlobalStyles = createGlobalStyle`
   :root {
-
-    /**************************
-    *  THEME-AGNOSTIC COLORS  *
-    **************************/
-    --secondary-color: ${SECONDARY_COLOR};
-    --tertiary-color: ${TERTIARY_COLOR};
-    --primary-color-global-forced: ${PRIMARY_COLOR};
-    --primary-color-10p-global-forced: ${transparentize(0.88, PRIMARY_COLOR)};
-    --primary-color-40p-global-forced: ${transparentize(0.6, PRIMARY_COLOR)};
-    --negative-color: ${NEGATIVE_COLOR};
-    --negative-color-10p: ${transparentize(0.88, NEGATIVE_COLOR)};
-    --positive-color: ${POSITIVE_COLOR};
-    --positive-color-10p: ${transparentize(0.88, POSITIVE_COLOR)};
-
     /************************
     *  GLOBAL MEASUREMENTS  *
     ************************/
@@ -74,31 +33,18 @@ export const GlobalStyles = createGlobalStyle`
   *::selection {
     background: rgba(0,0,0,0);
   }
-  input::selection, textarea::selection {
-    background: var(--primary-color-60p);
-  }
 
   html, body {
     font-family: 'kairos', Helvetica Neue, sans-serif;
     font-size: var(--body-size);
     line-height: var(--rhythm-nounits);
-    color: var(--default-color);
-    background-color: var(--bg-color);
+    color: black;
+    background-color: white;
     -webkit-font-smoothing: antialiased;
-  }
-
-  body {
- 
-  }
-
-  /* doesn't inherit font size properly */
-  input, textarea, select, button {
-    font-family: inherit;
-    font-size: var(--body-size);
-  }
-
-  main {
-    max-width: 1300px;
+    max-width: 100vw;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
   }
 `;
 
@@ -120,6 +66,7 @@ export const txtRegularMedium = css`
   font-weight: 500;
   letter-spacing: -0.1px;
 `;
+
 export const txtRegularBold = css`
   font-weight: bold;
   letter-spacing: -0.3px;
@@ -255,37 +202,6 @@ export const txtSmall1MediumStyle = css`
   font-weight: 500;
 `;
 
-export const [NumberRegular, numberRegularStyle] = makeStyle(
-  "span",
-  css`
-    font-family: var(--space-mono), monospace;
-    letter-spacing: -0.5px;
-  `
-);
-
-export const [NumberLarge1, numberLarge1Style] = makeStyle(
-  "span",
-  css`
-    font-family: var(--space-mono), monospace;
-    font-weight: bold;
-    font-size: 1.5rem;
-    letter-spacing: -0.5px;
-  `
-);
-
-export const [NumberLarge2, numberLarge2Style] = makeStyle(
-  "span",
-  css`
-    font-family: var(--space-mono), monospace;
-    font-weight: bold;
-    font-size: 2rem;
-    letter-spacing: -0.5px;
-  `
-);
-
-export const NumberSmall = TxtSmall2;
-export const numberSmallStyle = txtSmall2Style;
-
 export const pressableStyle = css`
   cursor: pointer;
   transition: transform 0.15s ease, opacity 0.15s ease;
@@ -384,15 +300,11 @@ export const heroButtonStyle = css`
     }
   }
 `;
-export const inputAttachedStyle = css`
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-`;
 
 export const Button = styled.button<{
-  primary?: boolean;
-  small?: boolean;
-  hero?: boolean;
+  $primary?: boolean;
+  $small?: boolean;
+  $hero?: boolean;
 }>`
   ${pressableStyle}
   ${txtRegularBold}
@@ -411,24 +323,16 @@ export const Button = styled.button<{
   border: 2px solid var(--buttonText, var(--default-color));
   text-transform: uppercase;
 
-  &.inputAttached {
-    ${inputAttachedStyle}
-  }
-
   &:disabled,
   &.disabled {
     opacity: 0.3;
     cursor: not-allowed;
   }
 
-  .textWithGlyph {
-    transform: translateY(-1px);
-  }
-
-  ${(p) => p.primary && primaryButtonStyle}
+  ${(p) => p.$primary && primaryButtonStyle}
 
   ${(p) =>
-    p.small &&
+    p.$small &&
     css`
       height: calc(var(--rhythm) * 1.25 - 2px);
       padding: 0 calc(var(--body-size) * 0.6);
@@ -436,7 +340,7 @@ export const Button = styled.button<{
       ${txtRegularMedium}
     `}
 
-  ${(p) => p.hero && heroButtonStyle}
+  ${(p) => p.$hero && heroButtonStyle}
 
   &.invalid {
     opacity: 0.3;
@@ -484,8 +388,7 @@ export let [Input, inputStyle] = makeStyle(
     border-radius: var(--border-radius);
     max-height: calc(var(--rhythm) * 2);
     color: var(--default-color);
-    padding: calc(var(--rhythm) * 0.666667) ${INPUT_SIDE_PADDING}
-      calc(var(--rhythm) * 0.666667);
+    padding: calc(var(--rhythm) * 0.666667) 18px calc(var(--rhythm) * 0.666667);
     box-shadow: inset 0 0 0 1px var(--neutral-color-B);
     ${activeTransition(["box-shadow", "background-color", "color"])}
 
@@ -582,16 +485,6 @@ export let [Input, inputStyle] = makeStyle(
       &::selection {
         background-color: transparent;
       }
-    }
-
-    &.numberStyle {
-      ${numberRegularStyle}
-    }
-
-    &.largeNumberStyle {
-      ${numberLarge2Style}
-      height: calc(var(--rhythm) * 3);
-      max-height: calc(var(--rhythm) * 3);
     }
 
     &.fullWidth {
@@ -813,14 +706,6 @@ export const InlineInfo = styled.aside`
   }
 `;
 
-export const NoWrap = styled.span`
-  white-space: nowrap;
-`;
-
-export const Strong = styled.strong`
-  ${txtRegularBold}
-`;
-
 export const Hr = styled.hr`
   margin: calc(var(--rhythm) * 1) 0;
   margin-top: calc(var(--rhythm) * 2);
@@ -829,44 +714,5 @@ export const Hr = styled.hr`
 
   &.addBottom {
     margin-bottom: calc(var(--rhythm) * 2.5);
-  }
-`;
-
-export const CenteredCont = styled.section`
-  max-width: calc(var(--body-size) * 84);
-  margin: 0 auto;
-  &.mini {
-    max-width: calc(var(--body-size) * 46);
-  }
-`;
-
-export const FullWidthCont = styled.section<{ maxSidebarWidth?: number }>`
-  position: relative;
-  z-index: 1;
-  max-width: ${(p) =>
-    p.maxSidebarWidth ? `${p.maxSidebarWidth}px` : MAX_SIDEBAR_WIDTH};
-  min-width: 460px;
-  width: 45%;
-  padding: calc(var(--rhythm) * 3) ${SIDE_PADDING_DESKTOP};
-
-  &.prominent {
-    max-width: 800px;
-    width: 55%;
-  }
-
-  &.wide {
-    width: 100%;
-    max-width: 100%;
-  }
-  &.center {
-    width: auto;
-    margin: 0 auto;
-    ${TxtLarge3}.center {
-      text-align: center;
-    }
-  }
-
-  &.withFooter {
-    margin-bottom: calc(var(--rhythm) * 4); /* accommodate footer */
   }
 `;

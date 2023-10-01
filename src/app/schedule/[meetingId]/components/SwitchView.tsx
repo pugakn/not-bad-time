@@ -7,18 +7,11 @@ import {
   TxtLarge2,
   TxtRegular,
 } from "@/app/globalStyles";
-import {
-  Avatar,
-  Logo,
-  ScheduleCalendarCont,
-  ScheduleCont,
-  ScheduleInfo,
-  ScheduleOverlay,
-} from "./style";
-import { useEffect, useState } from "react";
-import CalendarDayList from "./CalendarDayList";
-import { redirect } from "next/navigation";
 import { useGetMeetingByIdQuery } from "@/generated/client";
+import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Avatar, ScheduleCalendarCont, ScheduleInfo } from "../style";
+import CalendarDayList from "./CalendarDayList";
 
 export default function Schedule({ meetingId }: { meetingId: string }) {
   const [showCalendar, setShowCalendar] = useState(true);
@@ -52,7 +45,7 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
         <Label className="center">Select the time on</Label>
         <CalendarDayList />
         <Section className="center">
-          <Button hero={true}>Continue</Button>
+          <Button $hero>Continue</Button>
         </Section>
       </ScheduleCalendarCont>
     );
@@ -72,7 +65,7 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
           </TxtRegular>
         </Section>
         <Section className="noTop center">
-          <Button hero={true}>Choose a time</Button>
+          <Button $hero>Choose a time</Button>
         </Section>
       </ScheduleInfo>
     );

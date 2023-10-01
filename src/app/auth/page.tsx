@@ -1,12 +1,11 @@
 "use client";
-import { calendar } from "@googleapis/calendar";
-import { Logo, ScheduleCont, ScheduleOverlay } from "./style";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Button } from "../globalStyles";
-import { AuthContext, FirebaseAuth, GoogleProvider } from "../Firebase";
-import { FaGoogle } from "react-icons/fa";
-import { useContext, useEffect } from "react";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { redirect } from "next/navigation";
+import { useContext, useEffect } from "react";
+import { FaGoogle } from "react-icons/fa";
+import { AuthContext, FirebaseAuth, GoogleProvider } from "../Firebase";
+import { Button } from "../globalStyles";
+import { Logo, ScheduleCont, ScheduleOverlay } from "./style";
 
 export default function Schedule() {
   const signup = () => {
@@ -41,7 +40,7 @@ export default function Schedule() {
   return (
     <ScheduleCont>
       <ScheduleOverlay />
-      <Button primary onClick={signup}>
+      <Button $primary onClick={signup}>
         <FaGoogle />
         Sign up with Google
       </Button>

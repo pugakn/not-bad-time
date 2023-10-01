@@ -1,16 +1,16 @@
 "use client";
 
-import { ReactNode } from "react";
 import { GlobalStyles } from "@/app/globalStyles";
+import {
+  ApolloLink,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+  ApolloClient as _ApolloClient,
+} from "@apollo/client";
+import { ReactNode } from "react";
 import { ThemeProvider } from "styled-components";
 import { AuthProvider, FirebaseAuth } from "./Firebase";
-import {
-  ApolloClient as _ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  ApolloLink,
-  HttpLink,
-} from "@apollo/client";
 
 import { setContext } from "apollo-link-context";
 const authLink = setContext((_, { headers }) => {

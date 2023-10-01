@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, pressableStyle, txtRegularBold } from "@/app/globalStyles";
+import { pressableStyle, txtRegularBold } from "@/app/globalStyles";
 import styled from "styled-components";
 
 export type ThemeStyle = {

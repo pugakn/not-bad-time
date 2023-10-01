@@ -1,4 +1,4 @@
-import { shield, chain } from "graphql-shield";
+import { chain, shield } from "graphql-shield";
 import { isAuthed, isDenied, isMeetingOwner, validateQuery } from "./rules";
 import {
   CreateMeetingArgs,

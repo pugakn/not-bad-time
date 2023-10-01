@@ -16,6 +16,7 @@
     "@highlight-run/next": "^4.4.2",
     "@svgr/webpack": "^8.1.0",
     "apollo-link-context": "^1.0.20",
+    "encoding": "^0.1.13",
     "firebase": "^10.4.0",
     "firebase-admin": "^11.11.0",
     "graphql": "^16.8.1",

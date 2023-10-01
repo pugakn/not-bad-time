@@ -1,13 +1,12 @@
-import { typeDefs as scalarTypeDefs } from "graphql-scalars";
-import { createSchema } from "graphql-yoga";
-import { createYoga } from "graphql-yoga";
-import { applyMiddleware } from "graphql-middleware";
-import { EnvelopArmor } from "@escape.tech/graphql-armor";
-import { Context } from "@/gql/resolvers/types";
-import authorizationResolvers from "@/gql/resolvers/authorizationResolvers";
-import Schema from "@/gql/schemas/Schema.gql";
-import resolvers from "@/gql/resolvers";
 import { Resolvers } from "@/generated/server";
+import resolvers from "@/gql/resolvers";
+import authorizationResolvers from "@/gql/resolvers/authorizationResolvers";
+import { Context } from "@/gql/resolvers/types";
+import Schema from "@/gql/schemas/Schema.gql";
+import { EnvelopArmor } from "@escape.tech/graphql-armor";
+import { applyMiddleware } from "graphql-middleware";
+import { typeDefs as scalarTypeDefs } from "graphql-scalars";
+import { createSchema, createYoga } from "graphql-yoga";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import admin from "firebase-admin";
