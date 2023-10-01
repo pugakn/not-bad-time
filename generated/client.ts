@@ -22,6 +22,18 @@ export type Scalars = {
   UUID: { input: any; output: any; }
 };
 
+export type CalendarDay = {
+  __typename?: 'CalendarDay';
+  date: Scalars['DateTime']['output'];
+  times: Array<CalendarTime>;
+};
+
+export type CalendarTime = {
+  __typename?: 'CalendarTime';
+  available: Scalars['Boolean']['output'];
+  time: Scalars['DateTime']['output'];
+};
+
 export type Meeting = {
   __typename?: 'Meeting';
   createdAt: Scalars['DateTime']['output'];
@@ -53,8 +65,14 @@ export type MutationDeleteMeetingArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  calendarForMeeting: Array<CalendarDay>;
   meeting: Meeting;
   meetingsForUser: Array<Meeting>;
+};
+
+
+export type QueryCalendarForMeetingArgs = {
+  meetingId: Scalars['UUID']['input'];
 };
 
 
@@ -85,6 +103,13 @@ export type GetMeetingByIdQueryVariables = Exact<{
 
 
 export type GetMeetingByIdQuery = { __typename?: 'Query', meeting: { __typename: 'Meeting', id: any, state: MeetingState, startDate?: any | null, endDate?: any | null, createdAt: any, invitedEmail?: string | null } };
+
+export type GetCalendarForMeetingQueryVariables = Exact<{
+  meetingId: Scalars['UUID']['input'];
+}>;
+
+
+export type GetCalendarForMeetingQuery = { __typename?: 'Query', calendarForMeeting: Array<{ __typename: 'CalendarDay', date: any, times: Array<{ __typename?: 'CalendarTime', time: any, available: boolean }> }> };
 
 
 export const CreateMeetingDocument = gql`
@@ -232,6 +257,46 @@ export function useGetMeetingByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetMeetingByIdQueryHookResult = ReturnType<typeof useGetMeetingByIdQuery>;
 export type GetMeetingByIdLazyQueryHookResult = ReturnType<typeof useGetMeetingByIdLazyQuery>;
 export type GetMeetingByIdQueryResult = Apollo.QueryResult<GetMeetingByIdQuery, GetMeetingByIdQueryVariables>;
+export const GetCalendarForMeetingDocument = gql`
+    query GetCalendarForMeeting($meetingId: UUID!) {
+  calendarForMeeting(meetingId: $meetingId) {
+    date
+    times {
+      time
+      available
+    }
+    __typename
+  }
+}
+    `;
+
+/**
+ * __useGetCalendarForMeetingQuery__
+ *
+ * To run a query within a React component, call `useGetCalendarForMeetingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCalendarForMeetingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCalendarForMeetingQuery({
+ *   variables: {
+ *      meetingId: // value for 'meetingId'
+ *   },
+ * });
+ */
+export function useGetCalendarForMeetingQuery(baseOptions: Apollo.QueryHookOptions<GetCalendarForMeetingQuery, GetCalendarForMeetingQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCalendarForMeetingQuery, GetCalendarForMeetingQueryVariables>(GetCalendarForMeetingDocument, options);
+      }
+export function useGetCalendarForMeetingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCalendarForMeetingQuery, GetCalendarForMeetingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCalendarForMeetingQuery, GetCalendarForMeetingQueryVariables>(GetCalendarForMeetingDocument, options);
+        }
+export type GetCalendarForMeetingQueryHookResult = ReturnType<typeof useGetCalendarForMeetingQuery>;
+export type GetCalendarForMeetingLazyQueryHookResult = ReturnType<typeof useGetCalendarForMeetingLazyQuery>;
+export type GetCalendarForMeetingQueryResult = Apollo.QueryResult<GetCalendarForMeetingQuery, GetCalendarForMeetingQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -304,6 +369,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CalendarDay: ResolverTypeWrapper<CalendarDay>;
+  CalendarTime: ResolverTypeWrapper<CalendarTime>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Meeting: ResolverTypeWrapper<Meeting>;
   MeetingState: MeetingState;
@@ -316,12 +383,26 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  CalendarDay: CalendarDay;
+  CalendarTime: CalendarTime;
   DateTime: Scalars['DateTime']['output'];
   Meeting: Meeting;
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
   UUID: Scalars['UUID']['output'];
+};
+
+export type CalendarDayResolvers<ContextType = any, ParentType extends ResolversParentTypes['CalendarDay'] = ResolversParentTypes['CalendarDay']> = {
+  date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  times?: Resolver<Array<ResolversTypes['CalendarTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CalendarTimeResolvers<ContextType = any, ParentType extends ResolversParentTypes['CalendarTime'] = ResolversParentTypes['CalendarTime']> = {
+  available?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  time?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -346,6 +427,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  calendarForMeeting?: Resolver<Array<ResolversTypes['CalendarDay']>, ParentType, ContextType, RequireFields<QueryCalendarForMeetingArgs, 'meetingId'>>;
   meeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<QueryMeetingArgs, 'meetingId'>>;
   meetingsForUser?: Resolver<Array<ResolversTypes['Meeting']>, ParentType, ContextType>;
 };
@@ -355,6 +437,8 @@ export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type Resolvers<ContextType = any> = {
+  CalendarDay?: CalendarDayResolvers<ContextType>;
+  CalendarTime?: CalendarTimeResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Meeting?: MeetingResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
@@ -363,6 +447,16 @@ export type Resolvers<ContextType = any> = {
 };
 
 
+export type CalendarDayKeySpecifier = ('date' | 'times' | CalendarDayKeySpecifier)[];
+export type CalendarDayFieldPolicy = {
+	date?: FieldPolicy<any> | FieldReadFunction<any>,
+	times?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type CalendarTimeKeySpecifier = ('available' | 'time' | CalendarTimeKeySpecifier)[];
+export type CalendarTimeFieldPolicy = {
+	available?: FieldPolicy<any> | FieldReadFunction<any>,
+	time?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type MeetingKeySpecifier = ('createdAt' | 'endDate' | 'id' | 'invitedEmail' | 'startDate' | 'state' | 'updatedAt' | 'userId' | MeetingKeySpecifier)[];
 export type MeetingFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -379,12 +473,21 @@ export type MutationFieldPolicy = {
 	createMeeting?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteMeeting?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('meeting' | 'meetingsForUser' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('calendarForMeeting' | 'meeting' | 'meetingsForUser' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
+	calendarForMeeting?: FieldPolicy<any> | FieldReadFunction<any>,
 	meeting?: FieldPolicy<any> | FieldReadFunction<any>,
 	meetingsForUser?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
+	CalendarDay?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CalendarDayKeySpecifier | (() => undefined | CalendarDayKeySpecifier),
+		fields?: CalendarDayFieldPolicy,
+	},
+	CalendarTime?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CalendarTimeKeySpecifier | (() => undefined | CalendarTimeKeySpecifier),
+		fields?: CalendarTimeFieldPolicy,
+	},
 	Meeting?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MeetingKeySpecifier | (() => undefined | MeetingKeySpecifier),
 		fields?: MeetingFieldPolicy,

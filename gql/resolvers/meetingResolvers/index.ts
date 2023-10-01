@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 export default {
   Query: {
     meeting: async (_: unknown, { meetingId }, context: Context) => {
-      console.log("meeting: ", context.userId);
+      console.log("meeting: ", meetingId);
 
       const meeting = await admin
         .firestore()
@@ -29,6 +29,12 @@ export default {
         return doc.data();
       });
       return data as Meeting[];
+    },
+    calendarForMeeting: async (_: unknown, { meetingId }, context: Context) => {
+      console.log("calendarForMeeting: ", meetingId);
+      // Create 3 days after today with 4 times of 30 minutes each, must be on working hours (9am-5pm) from the user's timezone
+
+      return {} as any;
     },
   },
   Mutation: {

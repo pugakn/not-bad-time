@@ -18,6 +18,18 @@ export type Scalars = {
   UUID: { input: any; output: any; }
 };
 
+export type CalendarDay = {
+  __typename?: 'CalendarDay';
+  date: Scalars['DateTime']['output'];
+  times: Array<CalendarTime>;
+};
+
+export type CalendarTime = {
+  __typename?: 'CalendarTime';
+  available: Scalars['Boolean']['output'];
+  time: Scalars['DateTime']['output'];
+};
+
 export type Meeting = {
   __typename?: 'Meeting';
   createdAt: Scalars['DateTime']['output'];
@@ -49,8 +61,14 @@ export type MutationDeleteMeetingArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  calendarForMeeting: Array<CalendarDay>;
   meeting: Meeting;
   meetingsForUser: Array<Meeting>;
+};
+
+
+export type QueryCalendarForMeetingArgs = {
+  meetingId: Scalars['UUID']['input'];
 };
 
 
@@ -130,6 +148,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CalendarDay: ResolverTypeWrapper<CalendarDay>;
+  CalendarTime: ResolverTypeWrapper<CalendarTime>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Meeting: ResolverTypeWrapper<Meeting>;
   MeetingState: MeetingState;
@@ -142,12 +162,26 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  CalendarDay: CalendarDay;
+  CalendarTime: CalendarTime;
   DateTime: Scalars['DateTime']['output'];
   Meeting: Meeting;
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
   UUID: Scalars['UUID']['output'];
+};
+
+export type CalendarDayResolvers<ContextType = any, ParentType extends ResolversParentTypes['CalendarDay'] = ResolversParentTypes['CalendarDay']> = {
+  date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  times?: Resolver<Array<ResolversTypes['CalendarTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CalendarTimeResolvers<ContextType = any, ParentType extends ResolversParentTypes['CalendarTime'] = ResolversParentTypes['CalendarTime']> = {
+  available?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  time?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -172,6 +206,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  calendarForMeeting?: Resolver<Array<ResolversTypes['CalendarDay']>, ParentType, ContextType, RequireFields<QueryCalendarForMeetingArgs, 'meetingId'>>;
   meeting?: Resolver<ResolversTypes['Meeting'], ParentType, ContextType, RequireFields<QueryMeetingArgs, 'meetingId'>>;
   meetingsForUser?: Resolver<Array<ResolversTypes['Meeting']>, ParentType, ContextType>;
 };
@@ -181,6 +216,8 @@ export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type Resolvers<ContextType = any> = {
+  CalendarDay?: CalendarDayResolvers<ContextType>;
+  CalendarTime?: CalendarTimeResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Meeting?: MeetingResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

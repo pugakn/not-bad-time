@@ -21,3 +21,14 @@ query GetMeetingById($meetingId: UUID!) {
     __typename
   }
 }
+
+query GetCalendarForMeeting($meetingId: UUID!) {
+  calendarForMeeting(meetingId: $meetingId) {
+    date
+    times {
+      time
+      available
+    }
+    __typename
+  }
+}

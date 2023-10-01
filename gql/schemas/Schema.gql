@@ -7,6 +7,16 @@ enum MeetingState {
   CANCELLED
 }
 
+type CalendarTime {
+  time: DateTime!
+  available: Boolean!
+}
+
+type CalendarDay {
+  date: DateTime!
+  times: [CalendarTime!]!
+}
+
 type Meeting {
   id: UUID!
   state: MeetingState!
@@ -26,4 +36,5 @@ type Mutation {
 type Query {
   meeting(meetingId: UUID!): Meeting!
   meetingsForUser: [Meeting!]!
+  calendarForMeeting(meetingId: UUID!): [CalendarDay!]!
 }

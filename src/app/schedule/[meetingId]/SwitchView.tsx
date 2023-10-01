@@ -31,6 +31,7 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
   });
 
   useEffect(() => {
+    console.log({ meetingId, meetingData: meetingData.data?.meeting });
     if (
       meetingData.called &&
       !meetingData.loading &&

@@ -11,7 +11,8 @@ export default shield(
   {
     Query: {
       meetingsForUser: chain(isAuthed, validateQuery(MeetingsForUserArgs)),
-      meeting: chain(isAuthed, validateQuery(MeetingsByIdArgs)),
+      meeting: chain(validateQuery(MeetingsByIdArgs)),
+      calendarForMeeting: chain(validateQuery(MeetingsByIdArgs)),
       "*": isDenied,
     },
 
