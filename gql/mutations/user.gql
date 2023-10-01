@@ -1,6 +1,7 @@
 mutation CreateMeeting {
   createMeeting {
     id
+    __typename
   }
 }
 

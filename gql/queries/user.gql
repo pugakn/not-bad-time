@@ -1,5 +1,11 @@
 query GetMeetingsForUser {
   meetingsForUser {
     id
+    state
+    startDate
+    endDate
+    createdAt
+    invitedEmail
+    __typename
   }
 }

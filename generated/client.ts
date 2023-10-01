@@ -65,7 +65,7 @@ export type QueryMeetingArgs = {
 export type CreateMeetingMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CreateMeetingMutation = { __typename?: 'Mutation', createMeeting: { __typename?: 'Meeting', id: any } };
+export type CreateMeetingMutation = { __typename?: 'Mutation', createMeeting: { __typename: 'Meeting', id: any } };
 
 export type DeleteMeetingMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -77,13 +77,14 @@ export type DeleteMeetingMutation = { __typename?: 'Mutation', deleteMeeting: bo
 export type GetMeetingsForUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeetingsForUserQuery = { __typename?: 'Query', meetingsForUser: Array<{ __typename?: 'Meeting', id: any }> };
+export type GetMeetingsForUserQuery = { __typename?: 'Query', meetingsForUser: Array<{ __typename: 'Meeting', id: any, state: MeetingState, startDate?: any | null, endDate?: any | null, createdAt: any, invitedEmail?: string | null }> };
 
 
 export const CreateMeetingDocument = gql`
     mutation CreateMeeting {
   createMeeting {
     id
+    __typename
   }
 }
     `;
@@ -147,6 +148,12 @@ export const GetMeetingsForUserDocument = gql`
     query GetMeetingsForUser {
   meetingsForUser {
     id
+    state
+    startDate
+    endDate
+    createdAt
+    invitedEmail
+    __typename
   }
 }
     `;
