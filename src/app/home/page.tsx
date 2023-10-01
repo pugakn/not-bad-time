@@ -1,28 +1,31 @@
 "use client";
 import {
-  LogOutButton,
-  Logo,
-  MeetingsTableCol,
-  MeetingsTableCont,
-  MeetingsTableRow,
-  ScheduleCont,
-  ScheduleOverlay,
-} from "./style";
-import { Button, Section } from "../globalStyles";
-import { AuthContext, FirebaseAuth } from "../Firebase";
-import { useContext, useEffect } from "react";
-import { redirect } from "next/navigation";
-import {
   useCreateMeetingMutation,
   useDeleteMeetingMutation,
   useGetMeetingsForUserQuery,
 } from "@/generated/client";
+import { redirect } from "next/navigation";
+import { useContext, useEffect } from "react";
+import { AuthContext, FirebaseAuth } from "../Firebase";
+import {
+  Button,
+  Logo,
+  PageCont,
+  PageContOverlay,
+  Section,
+} from "../globalStyles";
+import {
+  LogOutButton,
+  MeetingsTableCol,
+  MeetingsTableCont,
+  MeetingsTableRow,
+} from "./style";
 
+import { formatDateToCustomString } from "@/utils";
 import { FaCopy, FaTrash } from "react-icons/fa";
-import { useCopyToClipboard } from "usehooks-ts";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { formatDateToCustomString } from "@/utils";
+import { useCopyToClipboard } from "usehooks-ts";
 
 export default function Schedule() {
   const meetingsData = useGetMeetingsForUserQuery();
@@ -107,9 +110,9 @@ export default function Schedule() {
   };
 
   return (
-    <ScheduleCont>
+    <PageCont>
       <ToastContainer />
-      <ScheduleOverlay />
+      <PageContOverlay />
       <LogOutButton $primary onClick={signout}>
         Log out
       </LogOutButton>
@@ -123,6 +126,6 @@ export default function Schedule() {
       </Section>
 
       <Logo src="/schedule/logo.svg" />
-    </ScheduleCont>
+    </PageCont>
   );
 }

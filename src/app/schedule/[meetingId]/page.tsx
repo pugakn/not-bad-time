@@ -1,5 +1,5 @@
+import { Logo, PageCont, PageContOverlay } from "@/app/globalStyles";
 import SwitchView from "./components/SwitchView";
-import { Logo, ScheduleCont, ScheduleOverlay } from "./style";
 
 export default function Schedule({
   params,
@@ -9,10 +9,10 @@ export default function Schedule({
   const meetingId = params.meetingId;
 
   return (
-    <ScheduleCont>
-      <ScheduleOverlay />
+    <PageCont>
+      <PageContOverlay />
       <Logo src="/schedule/logo.svg" />
       <SwitchView meetingId={meetingId} />
-    </ScheduleCont>
+    </PageCont>
   );
 }

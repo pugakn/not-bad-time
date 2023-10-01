@@ -4,8 +4,7 @@ import { redirect } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { AuthContext, FirebaseAuth, GoogleProvider } from "../Firebase";
-import { Button } from "../globalStyles";
-import { Logo, ScheduleCont, ScheduleOverlay } from "./style";
+import { Button, Logo, PageCont, PageContOverlay } from "../globalStyles";
 
 export default function Schedule() {
   const signup = () => {
@@ -38,13 +37,13 @@ export default function Schedule() {
   }, [authContext]);
 
   return (
-    <ScheduleCont>
-      <ScheduleOverlay />
+    <PageCont>
+      <PageContOverlay />
       <Button $primary onClick={signup}>
         <FaGoogle />
         Sign up with Google
       </Button>
       <Logo src="/schedule/logo.svg" />
-    </ScheduleCont>
+    </PageCont>
   );
 }

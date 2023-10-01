@@ -25,9 +25,9 @@ export const GlobalStyles = createGlobalStyle`
     --body-size: 15.5px;
     --rhythm: 24px;
     --rhythm-nounits: 1.548387;
-    --rhythm-px: 24px;
     --border-radius: 25px;
     --border-radius-small: 8px;
+    --body-font: "Inter", sans-serif;
   }
 
   *::selection {
@@ -35,7 +35,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   html, body {
-    font-family: 'kairos', Helvetica Neue, sans-serif;
+    font-family: var(--body-font);
     font-size: var(--body-size);
     line-height: var(--rhythm-nounits);
     color: black;
@@ -714,5 +714,42 @@ export const Hr = styled.hr`
 
   &.addBottom {
     margin-bottom: calc(var(--rhythm) * 2.5);
+  }
+`;
+
+export const PageCont = styled.main`
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url(/schedule/bg.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
+export const PageContOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: rgba(0, 0, 0, 0.66);
+`;
+
+export const Logo = styled.img`
+  z-index: 1;
+  width: 10rem;
+  height: 2rem;
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  filter: invert(1);
+  @media (max-width: 768px) {
+    top: 1rem;
+    left: calc(50vw - 5rem);
   }
 `;
