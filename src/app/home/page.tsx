@@ -72,58 +72,62 @@ export default function Schedule() {
     };
     return (
       <MeetingsTableCont>
-        <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Lastname</th>
-          <th>Lastname</th>
-        </tr>
-        {meetingsData.data?.meetingsForUser.map((meeting) => {
-          return (
-            <MeetingsTableRow key={meeting.id}>
-              <MeetingsTableCol>
-                <Button
-                  $primary
-                  onClick={() => {
-                    onCopyClick(meeting.id);
-                  }}
-                >
-                  <FaCopy />
-                  Copy link
-                </Button>
-              </MeetingsTableCol>
-              {meeting.startDate && (
+        <thead>
+          <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Lastname</th>
+            <th>Lastname</th>
+          </tr>
+        </thead>
+        <tbody>
+          {meetingsData.data?.meetingsForUser.map((meeting) => {
+            return (
+              <MeetingsTableRow key={meeting.id}>
                 <MeetingsTableCol>
-                  {formatDateToCustomString(new Date(meeting.startDate))} -{" "}
-                  {formatDateToCustomString(new Date(meeting.endDate), true)}
+                  <Button
+                    $primary
+                    onClick={() => {
+                      onCopyClick(meeting.id);
+                    }}
+                  >
+                    <FaCopy />
+                    Copy link
+                  </Button>
                 </MeetingsTableCol>
-              )}
-              {!meeting.startDate && <MeetingsTableCol>N/A</MeetingsTableCol>}
-              <MeetingsTableCol>
-                {meeting.invitedEmail || "N/A"}
-              </MeetingsTableCol>
-              <MeetingsTableCol>
-                <Tag
-                  className={
-                    meeting.state === MeetingState.Scheduled ? "positive" : ""
-                  }
-                >
-                  {meeting.state}
-                </Tag>
-              </MeetingsTableCol>
-              <MeetingsTableCol>
-                <Button
-                  $negative
-                  onClick={() => {
-                    onDeleteClick(meeting.id);
-                  }}
-                >
-                  <FaTrash />
-                </Button>
-              </MeetingsTableCol>
-            </MeetingsTableRow>
-          );
-        })}
+                {meeting.startDate && (
+                  <MeetingsTableCol>
+                    {formatDateToCustomString(new Date(meeting.startDate))} -{" "}
+                    {formatDateToCustomString(new Date(meeting.endDate), true)}
+                  </MeetingsTableCol>
+                )}
+                {!meeting.startDate && <MeetingsTableCol>N/A</MeetingsTableCol>}
+                <MeetingsTableCol>
+                  {meeting.invitedEmail || "N/A"}
+                </MeetingsTableCol>
+                <MeetingsTableCol>
+                  <Tag
+                    className={
+                      meeting.state === MeetingState.Scheduled ? "positive" : ""
+                    }
+                  >
+                    {meeting.state}
+                  </Tag>
+                </MeetingsTableCol>
+                <MeetingsTableCol>
+                  <Button
+                    $negative
+                    onClick={() => {
+                      onDeleteClick(meeting.id);
+                    }}
+                  >
+                    <FaTrash />
+                  </Button>
+                </MeetingsTableCol>
+              </MeetingsTableRow>
+            );
+          })}
+        </tbody>
       </MeetingsTableCont>
     );
   };

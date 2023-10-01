@@ -13,15 +13,8 @@ export const makeStyle = (tagName: string, cssStyle: CSSProp | RuleSet) => {
   return [styled[tagName]([cssStyle]), cssStyle];
 };
 
-/***************
- *   COLOURS   *
- ***************/
-
 export const GlobalStyles = createGlobalStyle`
   :root {
-    /************************
-    *  GLOBAL MEASUREMENTS  *
-    ************************/
     --body-size: 15.5px;
     --rhythm: 24px;
     --rhythm-nounits: 1.548387;
@@ -210,26 +203,6 @@ export const pressableStyle = css`
   &:active {
     transform: scale(0.95);
     opacity: 0.9;
-  }
-`;
-
-export const A = styled.a`
-  &:not(.noStyle) {
-    color: var(--primary-color);
-    ${txtRegularMedium}
-    ${pressableStyle}
-    text-decoration: none;
-    border-bottom: 1px solid var(--primary-color-60p);
-  }
-
-  &.monochrome {
-    color: var(--neutral-color-A);
-    border-bottom-color: var(--neutral-color-B);
-  }
-
-  &.multiLine {
-    border: none;
-    text-decoration: underline;
   }
 `;
 
@@ -509,50 +482,6 @@ export const InlineError = styled(TxtSmall1)`
 
   &.center {
     text-align: center;
-  }
-`;
-
-export const InlineInfo = styled.aside`
-  position: relative;
-  background-color: var(--neutral-color-D);
-  border-radius: var(--border-radius);
-  margin-bottom: calc(var(--rhythm) * 1);
-  margin-top: calc(var(--rhythm) * 0.5);
-
-  strong {
-    display: block;
-    ${txtRegularBold}
-  }
-  p,
-  &.small {
-    ${txtSmall1Style}
-    font-weight: normal;
-  }
-  &,
-  &.small {
-    padding: calc(var(--rhythm) * 0.5) calc(var(--body-size) * 1);
-    padding-bottom: calc(var(--rhythm) * 0.5 + 2px);
-  }
-  &.muted {
-    color: var(--neutral-color-A);
-  }
-  &.onGrey {
-    background-color: var(--neutral-color-C);
-  }
-  &.large {
-    padding: calc(var(--rhythm) * 1) calc(var(--body-size) * 1.75);
-    padding-top: calc(var(--rhythm) * 0.85);
-  }
-`;
-
-export const Hr = styled.hr`
-  margin: calc(var(--rhythm) * 1) 0;
-  margin-top: calc(var(--rhythm) * 2);
-  border: none;
-  border-top: 2px solid var(--border-color);
-
-  &.addBottom {
-    margin-bottom: calc(var(--rhythm) * 2.5);
   }
 `;
 
