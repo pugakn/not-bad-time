@@ -10,10 +10,12 @@ import {
   TxtRegular,
 } from "@/app/globalStyles";
 import {
+  MeetingState,
   useGetCalendarForMeetingQuery,
   useGetMeetingByIdQuery,
   useScheduleMeetingMutation,
 } from "@/generated/client";
+import { formatDateToCustomString } from "@/utils";
 import * as Joi from "joi";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -116,6 +118,35 @@ const InfoContC = ({
   );
 };
 
+const ScheduledContC = ({
+  meetingRes,
+}: {
+  meetingRes: ReturnType<typeof useGetMeetingByIdQuery>;
+}) => {
+  return (
+    <ScheduleInfo>
+      <Section className="noBottom">
+        <Avatar src="/schedule/avatar.jpeg" />
+      </Section>
+      <Section className="noTop center">
+        <TxtLarge1 className="center noBottom">
+          Your meeting has been scheduled!
+        </TxtLarge1>
+        <Label className="center">{`${formatDateToCustomString(
+          new Date(meetingRes.data?.meeting.startDate)
+        )}`}</Label>
+        <Section className="noBottom">
+          <TxtRegular className="center">
+            We've sent a confirmation email to{" "}
+            <strong>{meetingRes.data?.meeting.invitedEmail}</strong>. Please
+            check your inbox.
+          </TxtRegular>
+        </Section>
+      </Section>
+    </ScheduleInfo>
+  );
+};
+
 export default function Schedule({ meetingId }: { meetingId: string }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [invitedEmail, setInvitedEmail] = useState<string | null | undefined>(
@@ -125,7 +156,10 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
   const calendarRes = useGetCalendarForMeetingQuery({
     variables: { meetingId },
   });
-  const [schedule, scheduleRes] = useScheduleMeetingMutation();
+
+  const [schedule, scheduleRes] = useScheduleMeetingMutation({
+    refetchQueries: ["GetMeetingById"],
+  });
 
   const [shown, setShown] = useState<"INTRO" | "CALENDAR" | "SCHEDULED">(
     "INTRO"
@@ -134,20 +168,24 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
     redirect("/404");
   }
 
-  const meetingData = useGetMeetingByIdQuery({
+  const meetingRes = useGetMeetingByIdQuery({
     variables: { meetingId },
   });
 
   useEffect(() => {
-    console.log({ meetingId, meetingData: meetingData.data?.meeting });
+    console.log({ meetingId, meetingData: meetingRes.data?.meeting });
     if (
-      meetingData.called &&
-      !meetingData.loading &&
-      !meetingData.data?.meeting.id
+      meetingRes.called &&
+      !meetingRes.loading &&
+      !meetingRes.data?.meeting.id
     ) {
       redirect("/404");
     }
-  }, [meetingData]);
+
+    if (meetingRes.data?.meeting.state === MeetingState.Scheduled) {
+      setShown("SCHEDULED");
+    }
+  }, [meetingRes]);
 
   if (!calendarRes.data) {
     return <div>Loading...</div>;
@@ -184,6 +222,7 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
           calendarRes={calendarRes}
         />
       )}
+      {shown === "SCHEDULED" && <ScheduledContC meetingRes={meetingRes} />}
     </>
   );
 }

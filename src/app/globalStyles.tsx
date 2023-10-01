@@ -27,7 +27,6 @@ export const GlobalStyles = createGlobalStyle`
     --rhythm-nounits: 1.548387;
     --border-radius: 25px;
     --border-radius-small: 8px;
-    --body-font: "Inter", sans-serif;
     --default-color: #000000;
   }
 
@@ -173,7 +172,7 @@ export const [TxtSmall2, txtSmall2Style] = makeStyle(
 export const [TxtSmall1, txtSmall1Style] = makeStyle(
   "div",
   css`
-    font-size: 0.88rem;
+    font-size: 0.8rem;
     padding-top: 1px;
     padding-bottom: 2px;
 
@@ -349,11 +348,13 @@ export const activeTransition = (
 export let [Input, inputStyle] = makeStyle(
   "input",
   css`
+    font-family: var(--space-mono), monospace;
+    font-size: 0.9rem;
     background-color: rgba(255, 255, 255, 0);
     border-radius: var(--border-radius);
     max-height: calc(var(--rhythm) * 2);
     color: var(--default-color);
-    padding: calc(var(--rhythm) * 0.666667) 18px calc(var(--rhythm) * 0.666667);
+    padding: calc(var(--rhythm) * 0.566667) 18px calc(var(--rhythm) * 0.566667);
     box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.primary};
     ${activeTransition(["box-shadow", "background-color", "color"])}
 

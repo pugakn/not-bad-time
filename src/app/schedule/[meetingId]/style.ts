@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 export const ScheduleInfo = styled.div`
   z-index: 1;
-  padding: 2.5rem;
+  padding: calc(var(--rhythm) * 3.5);
   display: flex;
   flex-direction: column;
   justify-content: center;

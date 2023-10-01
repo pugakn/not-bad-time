@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Space_Mono } from "next/font/google";
+import { Lato, Space_Mono } from "next/font/google";
 import Providers from "./Providesr";
 
 const spaceMono = Space_Mono({
   weight: ["400", "700"],
   variable: "--space-mono",
+  subsets: ["latin"],
+});
+
+const lato = Lato({
+  weight: ["400", "700"],
+  variable: "--body-font",
   subsets: ["latin"],
 });
 
@@ -20,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={spaceMono.variable}>
+      <body className={`${spaceMono.variable} ${lato.variable}`}>
         <Providers>{children}</Providers>
       </body>
     </html>
