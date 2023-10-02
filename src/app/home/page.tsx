@@ -25,6 +25,7 @@ import {
 
 import { formatDateToCustomString } from "@/utils";
 import { FaCopy, FaTrash } from "react-icons/fa";
+import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCopyToClipboard } from "usehooks-ts";
@@ -36,7 +37,7 @@ export default function Schedule() {
   const [createMeeting, createMeetingRes] = useCreateMeetingMutation({
     refetchQueries: ["GetMeetingsForUser"],
   });
-  const [deleteMeeting] = useDeleteMeetingMutation({
+  const [deleteMeeting, deleteMeetingRes] = useDeleteMeetingMutation({
     refetchQueries: ["GetMeetingsForUser"],
   });
 
@@ -74,10 +75,10 @@ export default function Schedule() {
       <MeetingsTableCont>
         <thead>
           <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Lastname</th>
-            <th>Lastname</th>
+            <th>Link</th>
+            <th>Date</th>
+            <th>Email</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -117,11 +118,15 @@ export default function Schedule() {
                 <MeetingsTableCol>
                   <Button
                     $negative
+                    disabled={deleteMeetingRes.loading}
                     onClick={() => {
                       onDeleteClick(meeting.id);
                     }}
                   >
                     <FaTrash />
+                    {deleteMeetingRes.loading && (
+                      <ClipLoader color="primary" size={10} />
+                    )}
                   </Button>
                 </MeetingsTableCol>
               </MeetingsTableRow>
@@ -143,7 +148,12 @@ export default function Schedule() {
         <MeetingTableC />
       )}
       <Section>
-        <Button $primary onClick={onCreateMeeting}>
+        <Button
+          $primary
+          onClick={onCreateMeeting}
+          disabled={createMeetingRes.loading}
+        >
+          {createMeetingRes.loading && <ClipLoader color="white" size={10} />}
           Create Meeting
         </Button>
       </Section>
