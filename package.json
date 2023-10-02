@@ -57,6 +57,7 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@types/uuid": "^9.0.4",
+    "babel-plugin-styled-components": "^2.1.4",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "eslint-config-prettier": "^8.10.0",

@@ -42,7 +42,7 @@ const { handleRequest } = createYoga<{
   fetchAPI: { Response },
   async context(req: any, res: NextApiResponse) {
     const authTokenHeader = req.request.headers.get("authorization");
-    let userId = null;
+    let userId: string | null = null;
     if (authTokenHeader) {
       admin.auth().verifyIdToken;
       const r = await admin
