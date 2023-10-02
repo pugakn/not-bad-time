@@ -29,7 +29,7 @@
     "joi": "^17.10.2",
     "lodash": "^4.17.21",
     "luxon": "^3.4.3",
-    "next": "canary",
+    "next": "^13.4.12",
     "polished": "^4.2.2",
     "react": "latest",
     "react-dom": "latest",

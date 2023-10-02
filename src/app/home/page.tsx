@@ -6,7 +6,7 @@ import {
   useDeleteMeetingMutation,
   useGetMeetingsForUserQuery,
 } from "@/generated/client";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { AuthContext, FirebaseAuth } from "../Firebase";
 import {
@@ -32,6 +32,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useCopyToClipboard } from "usehooks-ts";
 
 const Home = () => {
+  const router = useRouter();
+
   const meetingsData = useGetMeetingsForUserQuery({
     fetchPolicy: "network-only",
   });
@@ -54,7 +56,7 @@ const Home = () => {
 
   const authContext = useContext(AuthContext);
   useEffect(() => {
-    if (!authContext.user) redirect("/auth");
+    if (!authContext.user) router.replace("/auth");
   }, [authContext]);
 
   const MeetingTableC = () => {

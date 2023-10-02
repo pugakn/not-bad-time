@@ -17,7 +17,7 @@ import {
 } from "@/generated/client";
 import { formatDateToCustomString } from "@/utils";
 import * as Joi from "joi";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Avatar, ScheduleCalendarCont, ScheduleInfo } from "../style";
@@ -149,6 +149,8 @@ const ScheduledContC = ({
 };
 
 export default function Schedule({ meetingId }: { meetingId: string }) {
+  const router = useRouter();
+
   const [selected, setSelected] = useState<string | null>(null);
   const [invitedEmail, setInvitedEmail] = useState<string | null | undefined>(
     undefined
@@ -166,7 +168,7 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
     "INTRO"
   );
   if (!meetingId) {
-    redirect("/404");
+    router.replace("/404");
   }
 
   const meetingRes = useGetMeetingByIdQuery({
@@ -180,7 +182,7 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
       !meetingRes.loading &&
       !meetingRes.data?.meeting.id
     ) {
-      redirect("/404");
+      router.replace("/404");
     }
 
     if (meetingRes.data?.meeting.state === MeetingState.Scheduled) {

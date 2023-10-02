@@ -1,6 +1,8 @@
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Main() {
-  redirect("/auth");
+  const router = useRouter();
+
+  router.replace("/auth");
   return null;
 }
