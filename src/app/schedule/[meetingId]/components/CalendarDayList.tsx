@@ -1,4 +1,5 @@
 "use client";
+
 import { CalendarDay as CalendarDayT } from "@/generated/client";
 import { CalendarSection } from "../style";
 import CalendarDay from "./CalendarDay";

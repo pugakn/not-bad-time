@@ -1,3 +1,5 @@
+"use client";
+
 import { Logo, PageCont, PageContOverlay } from "@/app/globalStyles";
 import SwitchView from "./components/SwitchView";
 
