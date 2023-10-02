@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Button,
   InlineError,
@@ -17,7 +18,7 @@ import {
 } from "@/generated/client";
 import { formatDateToCustomString } from "@/utils";
 import * as Joi from "joi";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Avatar, ScheduleCalendarCont, ScheduleInfo } from "../style";
@@ -138,7 +139,7 @@ const ScheduledContC = ({
         )}`}</Label>
         <Section className="noBottom">
           <TxtRegular className="center">
-            We've sent a confirmation email to{" "}
+            We&aposve sent a confirmation email to
             <strong>{meetingRes.data?.meeting.invitedEmail}</strong>. Please
             check your inbox.
           </TxtRegular>
@@ -149,6 +150,8 @@ const ScheduledContC = ({
 };
 
 export default function Schedule({ meetingId }: { meetingId: string }) {
+  const router = useRouter();
+
   const [selected, setSelected] = useState<string | null>(null);
   const [invitedEmail, setInvitedEmail] = useState<string | null | undefined>(
     undefined
@@ -165,28 +168,30 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
   const [shown, setShown] = useState<"INTRO" | "CALENDAR" | "SCHEDULED">(
     "INTRO"
   );
-  if (!meetingId) {
-    redirect("/404");
-  }
+
+  useEffect(() => {
+    if (!meetingId) {
+      router.replace("/404");
+    }
+  }, [router, meetingId]);
 
   const meetingRes = useGetMeetingByIdQuery({
     variables: { meetingId },
   });
 
   useEffect(() => {
-    console.log({ meetingId, meetingData: meetingRes.data?.meeting });
     if (
       meetingRes.called &&
       !meetingRes.loading &&
       !meetingRes.data?.meeting.id
     ) {
-      redirect("/404");
+      router.replace("/404");
     }
 
     if (meetingRes.data?.meeting.state === MeetingState.Scheduled) {
       setShown("SCHEDULED");
     }
-  }, [meetingRes]);
+  }, [meetingRes, router]);
 
   if (!calendarRes.data) {
     return <ClipLoader color="white" size={200} />;

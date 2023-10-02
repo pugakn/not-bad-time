@@ -1,11 +1,12 @@
 "use client";
+
 import {
   MeetingState,
   useCreateMeetingMutation,
   useDeleteMeetingMutation,
   useGetMeetingsForUserQuery,
 } from "@/generated/client";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { AuthContext, FirebaseAuth } from "../Firebase";
 import {
@@ -30,7 +31,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCopyToClipboard } from "usehooks-ts";
 
-export default function Schedule() {
+export default function Home() {
+  const router = useRouter();
+
   const meetingsData = useGetMeetingsForUserQuery({
     fetchPolicy: "network-only",
   });
@@ -53,8 +56,8 @@ export default function Schedule() {
 
   const authContext = useContext(AuthContext);
   useEffect(() => {
-    if (!authContext.user) redirect("/auth");
-  }, [authContext]);
+    if (!authContext.user) router.replace("/auth");
+  }, [authContext, router]);
 
   const MeetingTableC = () => {
     const [value, copy] = useCopyToClipboard();

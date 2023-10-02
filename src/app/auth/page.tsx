@@ -1,12 +1,15 @@
 "use client";
+
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { AuthContext, FirebaseAuth, GoogleProvider } from "../Firebase";
 import { Button, Logo, PageCont, PageContOverlay } from "../globalStyles";
 
-export default function Schedule() {
+export default function Auth({}: {}) {
+  const router = useRouter();
+
   const signup = () => {
     signInWithPopup(FirebaseAuth, GoogleProvider)
       .then((result) => {
@@ -34,8 +37,8 @@ export default function Schedule() {
 
   const authContext = useContext(AuthContext);
   useEffect(() => {
-    if (authContext.user) redirect("/home");
-  }, [authContext]);
+    if (authContext.user) router.replace("/home");
+  }, [authContext, router]);
 
   return (
     <PageCont>

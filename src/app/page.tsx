@@ -1,6 +1,13 @@
-import { redirect } from "next/navigation";
+"use client";
 
-export default function Home() {
-  redirect("/auth");
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+export default function Page() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/auth");
+  }, [router]);
   return null;
 }

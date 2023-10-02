@@ -1,3 +1,5 @@
+"use client";
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, User, getAuth } from "firebase/auth";
