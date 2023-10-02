@@ -168,16 +168,18 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
   const [shown, setShown] = useState<"INTRO" | "CALENDAR" | "SCHEDULED">(
     "INTRO"
   );
-  if (!meetingId) {
-    router.replace("/404");
-  }
+
+  useEffect(() => {
+    if (!meetingId) {
+      router.replace("/404");
+    }
+  }, [router, meetingId]);
 
   const meetingRes = useGetMeetingByIdQuery({
     variables: { meetingId },
   });
 
   useEffect(() => {
-    console.log({ meetingId, meetingData: meetingRes.data?.meeting });
     if (
       meetingRes.called &&
       !meetingRes.loading &&
@@ -189,7 +191,7 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
     if (meetingRes.data?.meeting.state === MeetingState.Scheduled) {
       setShown("SCHEDULED");
     }
-  }, [meetingRes]);
+  }, [meetingRes, router]);
 
   if (!calendarRes.data) {
     return <ClipLoader color="white" size={200} />;

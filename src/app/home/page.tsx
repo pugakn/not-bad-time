@@ -57,7 +57,7 @@ export default function Home() {
   const authContext = useContext(AuthContext);
   useEffect(() => {
     if (!authContext.user) router.replace("/auth");
-  }, [authContext]);
+  }, [authContext, router]);
 
   const MeetingTableC = () => {
     const [value, copy] = useCopyToClipboard();
