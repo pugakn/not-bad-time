@@ -1,12 +1,14 @@
 # Not Bad Time - A Demo App for GoodTime
 
+https://github.com/pugakn/not-bad-time/assets/8117939/6cdd089b-b2f4-441b-bf5f-7e36f4e9806a
+
 Version: 0.1.0
 
 ## Description
 
-Not Bad Time is a demo application created specifically for GoodTime. Its purpose is to showcase full-stack development abilities and features various technologies like Firebase, Firestore, GraphQL, React, Next.js, and Jest unit tests.
+Not Bad Time is a demo application created specifically for GoodTime. Its purpose is to showcase my full-stack development abilities and features various technologies like Firebase, Firestore, GraphQL, React, StyledComponents, Next.js, and Jest unit tests.
 
-You can experience the live demo of this application at https://not-bad-time.vercel.app/.
+I deployed the demo using Vercel, so you can experience the live demo of this application at https://not-bad-time.vercel.app/.
 
 ## Features
 
