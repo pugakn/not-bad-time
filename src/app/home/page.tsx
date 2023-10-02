@@ -31,7 +31,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCopyToClipboard } from "usehooks-ts";
 
-const Home = () => {
+export default function Home() {
   const router = useRouter();
 
   const meetingsData = useGetMeetingsForUserQuery({
@@ -166,6 +166,4 @@ const Home = () => {
       <Logo src="/schedule/logo.svg" />
     </PageCont>
   );
-};
-
-export default Home;
+}
