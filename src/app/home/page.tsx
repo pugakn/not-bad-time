@@ -31,7 +31,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useCopyToClipboard } from "usehooks-ts";
 
 export default function Schedule() {
-  const meetingsData = useGetMeetingsForUserQuery();
+  const meetingsData = useGetMeetingsForUserQuery({
+    fetchPolicy: "network-only",
+  });
 
   console.log({ meetingsData: meetingsData.data?.meetingsForUser });
   const [createMeeting, createMeetingRes] = useCreateMeetingMutation({

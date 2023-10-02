@@ -19,6 +19,7 @@ import { formatDateToCustomString } from "@/utils";
 import * as Joi from "joi";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import { Avatar, ScheduleCalendarCont, ScheduleInfo } from "../style";
 import CalendarDayList from "./CalendarDayList";
 
@@ -188,7 +189,7 @@ export default function Schedule({ meetingId }: { meetingId: string }) {
   }, [meetingRes]);
 
   if (!calendarRes.data) {
-    return <div>Loading...</div>;
+    return <ClipLoader color="white" size={200} />;
   }
 
   const onContinue = async () => {
