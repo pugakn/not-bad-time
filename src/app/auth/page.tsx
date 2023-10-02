@@ -7,7 +7,7 @@ import { FaGoogle } from "react-icons/fa";
 import { AuthContext, FirebaseAuth, GoogleProvider } from "../Firebase";
 import { Button, Logo, PageCont, PageContOverlay } from "../globalStyles";
 
-export default function Auth() {
+export default function Auth({}: {}) {
   const router = useRouter();
 
   const signup = () => {
