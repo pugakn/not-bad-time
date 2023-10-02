@@ -1,4 +1,5 @@
 "use client";
+
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { redirect } from "next/navigation";
 import { useContext, useEffect } from "react";
