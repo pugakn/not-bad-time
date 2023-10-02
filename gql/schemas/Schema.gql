@@ -1,0 +1,47 @@
+scalar DateTime
+scalar UUID
+
+enum MeetingState {
+  PENDING
+  SCHEDULED
+  CANCELLED
+}
+
+type CalendarTime {
+  id: String!
+  time: DateTime!
+  available: Boolean!
+}
+
+type CalendarDay {
+  id: String!
+  date: DateTime!
+  times: [CalendarTime!]!
+}
+
+type Meeting {
+  id: UUID!
+  state: MeetingState!
+  invitedEmail: String
+  userId: UUID!
+  startDate: DateTime
+  endDate: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Mutation {
+  createMeeting: Meeting!
+  deleteMeeting(meetingId: UUID!): Boolean!
+  scheduleMeeting(
+    meetingId: UUID!
+    time: DateTime!
+    invitedEmail: String!
+  ): Meeting!
+}
+
+type Query {
+  meeting(meetingId: UUID!): Meeting!
+  meetingsForUser: [Meeting!]!
+  calendarForMeeting(meetingId: UUID!): [CalendarDay!]!
+}

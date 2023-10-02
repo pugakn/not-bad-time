@@ -1,0 +1,37 @@
+query GetMeetingsForUser {
+  meetingsForUser {
+    id
+    state
+    startDate
+    endDate
+    createdAt
+    invitedEmail
+    __typename
+  }
+}
+
+query GetMeetingById($meetingId: UUID!) {
+  meeting(meetingId: $meetingId) {
+    id
+    state
+    startDate
+    endDate
+    createdAt
+    invitedEmail
+    __typename
+  }
+}
+
+query GetCalendarForMeeting($meetingId: UUID!) {
+  calendarForMeeting(meetingId: $meetingId) {
+    date
+    id
+    times {
+      time
+      available
+      id
+      __typename
+    }
+    __typename
+  }
+}
