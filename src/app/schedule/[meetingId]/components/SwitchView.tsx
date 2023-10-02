@@ -138,7 +138,7 @@ const ScheduledContC = ({
         )}`}</Label>
         <Section className="noBottom">
           <TxtRegular className="center">
-            We've sent a confirmation email to{" "}
+            We&aposve sent a confirmation email to
             <strong>{meetingRes.data?.meeting.invitedEmail}</strong>. Please
             check your inbox.
           </TxtRegular>
