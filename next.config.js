@@ -32,7 +32,6 @@ const nextConfig = {
 
     return config;
   },
-
   images: {},
   poweredByHeader: false,
   eslint: { ignoreDuringBuilds: true },
