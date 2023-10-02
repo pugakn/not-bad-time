@@ -30,7 +30,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCopyToClipboard } from "usehooks-ts";
 
-export default function Schedule() {
+export default function Home() {
   const meetingsData = useGetMeetingsForUserQuery({
     fetchPolicy: "network-only",
   });

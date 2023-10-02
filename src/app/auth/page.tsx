@@ -6,7 +6,7 @@ import { FaGoogle } from "react-icons/fa";
 import { AuthContext, FirebaseAuth, GoogleProvider } from "../Firebase";
 import { Button, Logo, PageCont, PageContOverlay } from "../globalStyles";
 
-export default function Schedule() {
+export default function Auth() {
   const signup = () => {
     signInWithPopup(FirebaseAuth, GoogleProvider)
       .then((result) => {
