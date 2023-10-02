@@ -2,12 +2,11 @@
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, User, getAuth } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
-import firebaseconfig from "../../firebaseconfig";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Initialize Firebase
-export const FirebaseApp = initializeApp(firebaseconfig);
+export const FirebaseApp = initializeApp(
+  JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG!)
+);
 export const FirebaseAuth = getAuth();
 export const GoogleProvider = new GoogleAuthProvider();
 

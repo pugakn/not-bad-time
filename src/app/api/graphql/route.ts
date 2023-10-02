@@ -13,10 +13,11 @@ import admin from "firebase-admin";
 
 //@ts-ignore
 if (!global.FirebaseAdmin) {
-  let serviceAccount = require("/firebase-admin-keys.json");
   //@ts-ignore
   global.FirebaseAdmin = admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(
+      JSON.parse(process.env.FIREBASE_ADMIN_KEYS!)
+    ),
   });
 }
 
