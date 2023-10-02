@@ -26,6 +26,7 @@
     "graphql-tag": "^2.12.6",
     "graphql-tools": "^9.0.0",
     "graphql-yoga": "^4.0.5",
+    "joi": "^17.10.2",
     "lodash": "^4.17.21",
     "luxon": "^3.4.3",
     "next": "canary",
