@@ -30,7 +30,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCopyToClipboard } from "usehooks-ts";
 
-export default function Home() {
+const Home = () => {
   const meetingsData = useGetMeetingsForUserQuery({
     fetchPolicy: "network-only",
   });
@@ -163,4 +163,6 @@ export default function Home() {
       <Logo src="/schedule/logo.svg" />
     </PageCont>
   );
-}
+};
+
+export default Home;

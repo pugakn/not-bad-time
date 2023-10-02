@@ -6,7 +6,7 @@ import { FaGoogle } from "react-icons/fa";
 import { AuthContext, FirebaseAuth, GoogleProvider } from "../Firebase";
 import { Button, Logo, PageCont, PageContOverlay } from "../globalStyles";
 
-export default function Auth() {
+const Auth = () => {
   const signup = () => {
     signInWithPopup(FirebaseAuth, GoogleProvider)
       .then((result) => {
@@ -47,4 +47,6 @@ export default function Auth() {
       <Logo src="/schedule/logo.svg" />
     </PageCont>
   );
-}
+};
+
+export default Auth;
