@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    appDir: true,
+  },  
   webpack: (config, { dir, isServer }) => {
     config.externals.push({
       "utf-8-validate": "commonjs utf-8-validate",
@@ -32,6 +35,7 @@ const nextConfig = {
 
     return config;
   },
+
   images: {},
   poweredByHeader: false,
   eslint: { ignoreDuringBuilds: true },
