@@ -1,7 +1,5 @@
 # Not Bad Time
 
-https://github.com/pugakn/not-bad-time/assets/8117939/6cdd089b-b2f4-441b-bf5f-7e36f4e9806a
-
 Version: 0.1.0
 
 ## Description
